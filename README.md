@@ -7,12 +7,12 @@
 - **Backend**: Node.js, Express
 - **Database**: MongoDB
 - **APIs**: Groq API Key
-- **Deployment**: Netlify, Render
+- **Deployment**: Render
 ---
 
 ## Acknowledgments
  - **Contributors**:
-   -Aman Agastya
+   -Aman Agastya - amanagastya0709@gmail.com
 ---
 
 ## 📋 Table of Contents
