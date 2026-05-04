@@ -159,6 +159,19 @@ router.post('/feedback', async (req, res) => {
   }
 });
 
+// User: Get own feedback by email
+router.get('/feedback/my-feedback', auth, async (req, res) => {
+  try {
+    const email = req.user.email;
+    if (!email) return res.status(400).json({ message: 'User email not found in token' });
+    const feedbacks = await Feedback.find({ email: email.toLowerCase() }).sort({ createdAt: -1 });
+    res.json(feedbacks);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // Admin: Get all feedback
 router.get('/feedback', auth, roleCheck('admin'), async (req, res) => {
   try {

@@ -140,6 +140,88 @@
 .dash-lab-actions { display:flex; gap:6px; flex-shrink:0; }
 .dash-lab-edit { width:100%; flex-direction:column; gap:12px; display:flex; }
 
+/* ── My Feedback Tab ─────────────────────────────────────────────────────── */
+.myfb-list { display: flex; flex-direction: column; gap: 16px; }
+
+.myfb-card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+.myfb-card:hover { box-shadow: 0 4px 20px rgba(74,144,226,0.10); }
+.myfb-card--replied {
+  border-color: #10b98133;
+  background: linear-gradient(135deg, #f0fdf4, #fff);
+}
+
+.myfb-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.myfb-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.myfb-category {
+  background: #eff6ff;
+  color: #3b82f6;
+  border-radius: 99px;
+  padding: 3px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.myfb-stars { font-size: 1.1rem; letter-spacing: 1px; }
+.myfb-date { font-size: 0.82rem; color: #9ca3af; }
+
+.myfb-status-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.myfb-message {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0 0 0 2px;
+}
+
+.myfb-reply-box {
+  margin-top: 14px;
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  border: 1.5px solid #10b98133;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.myfb-reply-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #059669;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.myfb-reply-text {
+  font-size: 0.93rem;
+  color: #065f46;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.dash-loading-inline {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px; color: #6b7280; font-size: 0.9rem;
+}
+
 @media (max-width: 640px) {
   .dash-profile-grid { grid-template-columns:1fr; }
   .dash-field-group.three-col { grid-template-columns:1fr; }

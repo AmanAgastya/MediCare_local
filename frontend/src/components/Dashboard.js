@@ -41,6 +41,10 @@ const Dashboard = () => {
   const [organForm, setOrganForm] = useState({ donorName:'', donorPhone:'', organType:'', donorAlive:true, notes:'' });
   const [finForm, setFinForm]     = useState({ donorName:'', amountOffered:'', paymentMode:'', purpose:'', notes:'' });
 
+  const [myFeedbacks, setMyFeedbacks] = useState([]);
+  const [fbLoading, setFbLoading] = useState(false);
+  const [fbError, setFbError] = useState('');
+
   const token = localStorage.getItem('token');
   const authH = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` };
 
@@ -75,6 +79,22 @@ const Dashboard = () => {
   }, [token, navigate]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  // ── Fetch My Feedbacks ────────────────────────────────────────────────────
+  const fetchMyFeedbacks = useCallback(async () => {
+    if (!token) return;
+    setFbLoading(true); setFbError('');
+    try {
+      const res = await fetch('http://localhost:5000/api/admin/feedback/my-feedback', {
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Failed to load feedbacks');
+      setMyFeedbacks(await res.json());
+    } catch (err) { setFbError(err.message); }
+    finally { setFbLoading(false); }
+  }, [token]);
+
+  useEffect(() => { fetchMyFeedbacks(); }, [fetchMyFeedbacks]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -204,7 +224,8 @@ const Dashboard = () => {
     { id: 'profile', label: '👤 Health Profile' },
     { id: 'labtests', label: '🧪 Lab Tests' },
     { id: 'donations', label: '🩸 Donations', badge: myDonations.filter(d => d.status === 'pending').length },
-    { id: 'orders', label: `💊 Medicine Orders ${orders.length > 0 ? `(${orders.length})` : "" }`},
+    { id: 'orders', label: `💊 Medicine Orders ${orders.length > 0 ? `(${orders.length})` : ""}`},
+    { id: 'myFeedback', label: `💬 My Feedback${myFeedbacks.filter(f => f.status === 'replied').length > 0 ? ` (${myFeedbacks.filter(f => f.status === 'replied').length} replied)` : ''}` },
   ];
 
   const statusColor = { Pending: '#f59e0b', Accepted: '#10b981', Denied: '#ef4444', Cancelled: '#9ca3af' };
@@ -923,6 +944,59 @@ const Dashboard = () => {
       )}
     </div>
   )}
+
+      {/* ── MY FEEDBACK TAB ───────────────────────────────────────────────── */}
+      {activeTab === 'myFeedback' && (
+        <div className="dash-section">
+          <div className="dash-section-header">
+            <h2>💬 My Feedback</h2>
+            <a href="/feedback" className="dash-add-btn"><Plus size={16}/> Submit New</a>
+          </div>
+
+          {fbLoading && <div className="dash-loading-inline"><div className="dash-spinner"/><p>Loading your feedbacks…</p></div>}
+          {fbError && <div className="dash-error">⚠ {fbError}<button onClick={() => setFbError('')}>×</button></div>}
+
+          {!fbLoading && myFeedbacks.length === 0 && (
+            <div className="dash-empty">
+              <p>You haven't submitted any feedback yet.</p>
+              <a href="/feedback" className="dash-btn dash-btn-primary">Share Your Feedback</a>
+            </div>
+          )}
+
+          {!fbLoading && myFeedbacks.length > 0 && (
+            <div className="myfb-list">
+              {myFeedbacks.map(fb => {
+                const statusClr = { unread: '#f59e0b', read: '#3b82f6', replied: '#10b981' }[fb.status] || '#9ca3af';
+                const statusLabel = { unread: '⏳ Pending', read: '👁 Seen', replied: '✅ Replied' }[fb.status] || fb.status;
+                const stars = '★'.repeat(fb.rating) + '☆'.repeat(5 - fb.rating);
+                return (
+                  <div key={fb._id} className={`myfb-card ${fb.status === 'replied' ? 'myfb-card--replied' : ''}`}>
+                    <div className="myfb-card-head">
+                      <div className="myfb-meta">
+                        <span className="myfb-category">{fb.category.charAt(0).toUpperCase() + fb.category.slice(1)}</span>
+                        <span className="myfb-stars" style={{color:'#f59e0b'}}>{stars}</span>
+                        <span className="myfb-date">📅 {new Date(fb.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
+                      </div>
+                      <span className="myfb-status-badge" style={{background:statusClr+'22',color:statusClr,border:`1px solid ${statusClr}55`}}>
+                        {statusLabel}
+                      </span>
+                    </div>
+
+                    <p className="myfb-message">"{fb.message}"</p>
+
+                    {fb.status === 'replied' && fb.adminReply && (
+                      <div className="myfb-reply-box">
+                        <div className="myfb-reply-label">🏥 Admin Reply</div>
+                        <p className="myfb-reply-text">{fb.adminReply}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
 
     </div>
   );
