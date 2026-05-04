@@ -889,10 +889,17 @@ const Dashboard = () => {
 {/* ── ORDERS MEDICINE TAB */}
     {activeTab === 'orders' && (
     <div className="dash-section">
-      <h2 className="dash-section-title">
-        🧾 My Medicine Orders
-      </h2>
-
+      <div className="dash-section-header">
+        <h2 className="dash-section-title">🧾 My Medicine Orders</h2>
+        <button
+          className="dash-btn dash-btn-outline"
+          style={{ borderColor: '#4a90e2', color: '#4a90e2', fontSize: '0.82rem' }}
+          onClick={() => navigate('/medstore')}
+        >
+          + New Order
+        </button>
+      </div>
+ 
       {orders.length === 0 ? (
         <div className="dash-empty">
           <p>You have not placed any medicine orders yet.</p>
@@ -902,44 +909,87 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="orders-list">
-          {orders.map((order) => (
-            <div key={order._id} className="order-card">
-              <div className="order-card-header">
-                <span className="order-id">Order #{order._id.slice(-8).toUpperCase()}</span>
-                <span
-                  className="order-status-badge"
-                  style={{
-                    background:
-                      order.orderStatus === 'Delivered' ? '#d1fae5' :
-                      order.orderStatus === 'Shipped'   ? '#dbeafe' : '#fef3c7',
-                    color:
-                      order.orderStatus === 'Delivered' ? '#065f46' :
-                      order.orderStatus === 'Shipped'   ? '#1e40af' : '#92400e',
-                  }}
-                >
-                  {order.orderStatus}
-                </span>
-              </div>
-
-              <div className="order-items-list">
-                {order.items.map((item, i) => (
-                  <div key={i} className="order-item-row">
-                    <span>{item.name}</span>
-                    <span>{item.quantity} × ₹{item.price}</span>
+          {orders.map((order) => {
+            const STATUS_STEPS = ['Placed', 'Processing', 'Shipped', 'Delivered'];
+            const isCancelled  = order.orderStatus === 'Cancelled';
+            const currentStep  = isCancelled ? -1 : STATUS_STEPS.indexOf(order.orderStatus);
+            const statusColor  = {
+              Placed:      { bg: '#fef3c7', color: '#92400e' },
+              Processing:  { bg: '#ede9fe', color: '#5b21b6' },
+              Shipped:     { bg: '#dbeafe', color: '#1e40af' },
+              Delivered:   { bg: '#d1fae5', color: '#065f46' },
+              Cancelled:   { bg: '#fee2e2', color: '#991b1b' },
+            }[order.orderStatus] || { bg: '#f3f4f6', color: '#374151' };
+ 
+            const addr = order.address || {};
+            const addrLine = typeof addr === 'string'
+              ? addr
+              : [addr.address, addr.city, addr.state, addr.pincode].filter(Boolean).join(', ');
+ 
+            return (
+              <div key={order._id} className="order-card">
+                {/* ── Header ── */}
+                <div className="order-card-header">
+                  <div className="order-card-header-left">
+                    <span className="order-id">Order #{order._id.slice(-8).toUpperCase()}</span>
+                    <span className="order-date">
+                      {new Date(order.createdAt).toLocaleDateString('en-IN', {
+                        day: '2-digit', month: 'short', year: 'numeric'
+                      })}
+                    </span>
                   </div>
-                ))}
+                  <span className="order-status-badge" style={{ background: statusColor.bg, color: statusColor.color }}>
+                    {order.orderStatus}
+                  </span>
+                </div>
+ 
+                {/* ── Status Tracker ── */}
+                {!isCancelled ? (
+                  <div className="order-tracker">
+                    {STATUS_STEPS.map((step, idx) => (
+                      <div key={step} className={`order-tracker-step ${idx <= currentStep ? 'done' : ''} ${idx === currentStep ? 'active' : ''}`}>
+                        <div className="order-tracker-dot">
+                          {idx < currentStep ? '✓' : idx === currentStep ? '●' : ''}
+                        </div>
+                        <span className="order-tracker-label">{step}</span>
+                        {idx < STATUS_STEPS.length - 1 && (
+                          <div className={`order-tracker-line ${idx < currentStep ? 'done' : ''}`} />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="order-cancelled-banner">❌ This order has been cancelled.</div>
+                )}
+ 
+                {/* ── Items ── */}
+                <div className="order-items-list">
+                  {order.items.map((item, i) => (
+                    <div key={i} className="order-item-row">
+                      <span className="order-item-name">💊 {item.name}</span>
+                      <span className="order-item-price">{item.quantity} × ₹{item.price}</span>
+                    </div>
+                  ))}
+                </div>
+ 
+                {/* ── Footer ── */}
+                <div className="order-card-footer">
+                  <div className="order-footer-meta">
+                    {addrLine && (
+                      <span className="order-meta-chip">📍 {addrLine}</span>
+                    )}
+                    {order.paymentMethod && (
+                      <span className="order-meta-chip">
+                        💳 {order.paymentMethod.toUpperCase()}
+                        {order.paymentStatus && ` · ${order.paymentStatus}`}
+                      </span>
+                    )}
+                  </div>
+                  <span className="order-total">Total: <strong>₹{order.totalAmount}</strong></span>
+                </div>
               </div>
-
-              <div className="order-card-footer">
-                <span>Total: <strong>₹{order.totalAmount}</strong></span>
-                <span>
-                  {new Date(order.createdAt).toLocaleDateString('en-IN', {
-                    day: '2-digit', month: 'short', year: 'numeric'
-                  })}
-                </span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
