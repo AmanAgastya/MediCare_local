@@ -14,8 +14,6 @@ const fmt = (d) => {
   catch { return "—"; }
 };
 
-const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
-
 const NAV = [
   { id: "overview",  icon: "📊", label: "Dashboard",      section: "Overview"   },
   { id: "hospitals", icon: "🏨", label: "Hospitals",       section: "Management" },
