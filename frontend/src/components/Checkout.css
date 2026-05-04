@@ -1,0 +1,134 @@
+/* Checkout.css
+   FIX: Original used bare `input, textarea, button { width: 90% }` —
+   this global selector broke buttons EVERYWHERE on the site (Header, Footer,
+   Home page buttons all became 90% wide). Scoped to .checkout-container.
+   Also padding: 120px was way too large on mobile — reduced with responsive breakpoints. */
+
+.checkout-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 110px 24px 40px; /* FIX: was 120px — broke mobile layout */
+}
+
+.checkout-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 28px;
+  color: #2c3e50;
+}
+
+.checkout-grid {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.form-card,
+.summary-card {
+  flex: 1;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-card h3,
+.summary-card h3 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+/* FIX: SCOPED selectors — previously used bare `input, textarea` which
+   polluted global styles and broke inputs on other pages */
+.form-card input,
+.form-card textarea,
+.form-card select {
+  width: 100%;
+  margin: 0;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #dde2e8;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-card input:focus,
+.form-card textarea:focus {
+  border-color: #2c7be5;
+  box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.12);
+}
+
+.form-card input.input-error,
+.form-card textarea.input-error {
+  border-color: #e74c3c;
+}
+
+.error-text {
+  display: block;
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-card textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Summary card */
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0 0;
+  font-size: 16px;
+}
+
+/* FIX: SCOPED continue button — original was bare `button` */
+.continue-btn {
+  width: 100%;
+  padding: 13px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.continue-btn:hover {
+  background: #219a52;
+}
+
+@media (max-width: 700px) {
+  .checkout-grid {
+    flex-direction: column;
+  }
+}

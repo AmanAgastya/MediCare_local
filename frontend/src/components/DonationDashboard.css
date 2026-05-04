@@ -1,0 +1,49 @@
+.dd-page { background: #f9fafb; min-height: 100vh; }
+
+.dd-hero {
+  background: linear-gradient(135deg, #1a1a2e, #e53e3e 200%);
+  color: white; text-align: center; padding: 60px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.dd-hero h1 { font-size: 2.2rem; margin: 0; }
+.dd-hero p { opacity: 0.88; font-size: 1rem; max-width: 500px; margin: 0; }
+
+.dd-cards-section { max-width: 1000px; margin: 0 auto; padding: 48px 20px; }
+.dd-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+
+.dd-type-card {
+  background: #fff; border-radius: 16px; padding: 28px; text-decoration: none; color: #1a1a2e;
+  border: 1px solid #e5e7eb; display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s;
+}
+.dd-type-card:hover, .dd-type-card.hovered {
+  transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.dd-card-icon {
+  width: 60px; height: 60px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.dd-type-card h3 { font-size: 1.2rem; margin: 0; }
+.dd-type-card p { font-size: 0.9rem; color: #6b7280; margin: 0; line-height: 1.5; }
+.dd-card-stat { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #9ca3af; }
+.dd-card-cta { display: flex; align-items: center; gap: 4px; font-size: 0.9rem; font-weight: 600; margin-top: 4px; }
+
+.dd-impact { background: #1a1a2e; color: white; padding: 56px 20px; text-align: center; }
+.dd-impact h2 { font-size: 1.8rem; margin-bottom: 32px; }
+.dd-impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; max-width: 800px; margin: 0 auto; }
+.dd-impact-card { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.dd-impact-emoji { font-size: 2rem; }
+.dd-impact-num { font-size: 2rem; font-weight: 700; color: #ef4444; }
+.dd-impact-label { font-size: 0.85rem; opacity: 0.78; }
+
+.dd-how { max-width: 900px; margin: 0 auto; padding: 56px 20px; text-align: center; }
+.dd-how h2 { font-size: 1.8rem; margin-bottom: 32px; color: #1a1a2e; }
+.dd-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; }
+.dd-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.dd-step-num {
+  width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+.dd-step h4 { font-size: 1rem; color: #1a1a2e; margin: 0; }
+.dd-step p { font-size: 0.85rem; color: #6b7280; margin: 0; }

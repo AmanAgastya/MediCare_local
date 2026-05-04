@@ -1,0 +1,36 @@
+.fb-page { min-height: 80vh; background: linear-gradient(135deg,#f0f9ff,#e8f4fd); padding: 40px 16px; display: flex; justify-content: center; }
+.fb-card { background: #fff; border-radius: 20px; padding: 40px; width: 100%; max-width: 640px; box-shadow: 0 10px 40px rgba(74,144,226,0.12); }
+.fb-top { text-align: center; margin-bottom: 28px; }
+.fb-top h1 { font-size: 1.8rem; color: #1a1a2e; margin-bottom: 8px; }
+.fb-top p { color: #6b7280; font-size: 0.95rem; }
+.fb-error { background: #fee2e2; color: #dc2626; padding: 10px 14px; border-radius: 8px; margin-bottom: 18px; font-size: 0.9rem; }
+.fb-form { display: flex; flex-direction: column; gap: 20px; }
+.fb-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fb-field { display: flex; flex-direction: column; gap: 6px; }
+.fb-field label { font-size: 0.88rem; font-weight: 600; color: #374151; }
+.fb-field input, .fb-field select, .fb-field textarea {
+  padding: 10px 14px; border: 1.5px solid #d1d5db; border-radius: 10px;
+  font-size: 0.95rem; outline: none; transition: border-color 0.2s; font-family: inherit;
+}
+.fb-field input:focus, .fb-field select:focus, .fb-field textarea:focus { border-color: #4a90e2; box-shadow: 0 0 0 3px rgba(74,144,226,0.1); }
+.fb-field textarea { resize: vertical; }
+
+.fb-stars-input { display: flex; align-items: center; gap: 4px; }
+.fb-star { background: none; border: none; font-size: 2rem; cursor: pointer; color: #d1d5db; transition: color 0.15s; padding: 0 2px; }
+.fb-star.active { color: #f59e0b; }
+.fb-rating-label { font-size: 0.9rem; color: #6b7280; margin-left: 8px; }
+
+.fb-submit {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white; padding: 13px; border: none; border-radius: 12px;
+  font-size: 1rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
+}
+.fb-submit:hover { opacity: 0.92; }
+.fb-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.fb-success { text-align: center; padding: 60px 40px; background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(74,144,226,0.12); }
+.fb-success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+.fb-success h2 { font-size: 1.8rem; color: #1a1a2e; margin-bottom: 12px; }
+.fb-success p { color: #6b7280; margin-bottom: 24px; }
+
+@media (max-width: 540px) { .fb-row { grid-template-columns: 1fr; } }

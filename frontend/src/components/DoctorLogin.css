@@ -1,0 +1,71 @@
+.doctor-login-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e8f4fd 0%, #f0f9ff 100%);
+  padding: 20px;
+}
+
+.doctor-login-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 40px rgba(74,144,226,0.15);
+  text-align: center;
+}
+
+.dl-icon-wrap {
+  background: #e8f4fd;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.dl-title { font-size: 1.6rem; color: #1a1a2e; margin-bottom: 6px; }
+.dl-sub { color: #6b7280; font-size: 0.9rem; margin-bottom: 24px; }
+.dl-error { background: #fee2e2; color: #dc2626; padding: 10px; border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem; }
+
+.dl-form { text-align: left; display: flex; flex-direction: column; gap: 16px; }
+.dl-field { display: flex; flex-direction: column; gap: 6px; }
+.dl-field label { font-size: 0.88rem; font-weight: 600; color: #374151; }
+.dl-field input {
+  padding: 10px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.dl-field input:focus { border-color: #4a90e2; box-shadow: 0 0 0 3px rgba(74,144,226,0.1); }
+.dl-password-wrap { position: relative; }
+.dl-password-wrap input { width: 100%; padding-right: 40px; box-sizing: border-box; }
+.dl-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #9ca3af; }
+
+.dl-submit {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+.dl-submit:hover { opacity: 0.92; }
+.dl-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.dl-note { margin-top: 20px; font-size: 0.85rem; color: #6b7280; }
+.dl-note a { color: #4a90e2; text-decoration: none; font-weight: 600; }
+.dl-note a:hover { text-decoration: underline; }

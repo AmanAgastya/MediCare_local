@@ -1,0 +1,120 @@
+.success-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 60px 24px 40px;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 60px;
+  margin-bottom:none ;
+  padding: 60px;
+  padding-bottom: 0%;
+}
+
+.success-container h2 {
+  font-size: 2rem;
+  color: #27ae60;
+  padding-top: 0%;
+  margin-bottom: 8px;
+}
+
+.success-sub {
+  color: #666;
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+.order-details-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.order-id-badge {
+  display: inline-block;
+  background: #eff5ff;
+  color: #2c7be5;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.order-details-card h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+.order-items {
+  border-top: 1px solid #f0f0f0;
+  margin-bottom: 16px;
+}
+
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8f8f8;
+  font-size: 14px;
+}
+
+.order-meta {
+  border-top: 2px solid #e8ecf0;
+  padding-top: 14px;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 6px 0;
+  color: #555;
+}
+
+.meta-row strong {
+  color: #2c3e50;
+}
+
+.success-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* FIX: SCOPED buttons — original bare `button` changed every button on site */
+.btn-primary {
+  background: #2c7be5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: #1a5dc8; }
+
+.btn-outline {
+  background: #fff;
+  color: #2c7be5;
+  border: 2px solid #2c7be5;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background: #eff5ff;
+}

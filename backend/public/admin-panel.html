@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MediCare · Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080b12;--s1:#0e1119;--s2:#141820;--s3:#1c2130;
+  --bd:rgba(255,255,255,.07);
+  --ac:#3b82f6;--gn:#10b981;--rd:#ef4444;--yw:#f59e0b;--pu:#8b5cf6;--pk:#ec4899;
+  --tx:#e2e6f0;--mu:#5c6478;--m2:#8892a4;--wh:#fff;
+  --sw:256px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
+
+/* LOGIN */
+#lp{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(59,130,246,.2),transparent 65%),
+             radial-gradient(ellipse 40% 35% at 85% 85%,rgba(139,92,246,.12),transparent 55%),var(--bg);
+  position:relative}
+#lp::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:40px 40px}
+.lc{width:420px;background:linear-gradient(145deg,rgba(20,24,32,.95),rgba(12,14,20,.98));border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:50px 44px;box-shadow:0 50px 100px rgba(0,0,0,.7);animation:rise .5s cubic-bezier(.22,.68,0,1.2)}
+@keyframes rise{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none}}
+.lb{display:flex;align-items:center;gap:12px;margin-bottom:38px}
+.li{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 24px rgba(59,130,246,.35)}
+.ln{font-family:'DM Serif Display',serif;font-size:26px;color:var(--wh)}.ln em{color:var(--ac);font-style:normal}
+.lh{font-family:'DM Serif Display',serif;font-size:30px;color:var(--wh);margin-bottom:6px}
+.ls{font-size:13px;color:var(--m2);margin-bottom:32px}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--m2);margin-bottom:7px}
+.fg input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:11px;padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--tx);outline:none;transition:border-color .2s,box-shadow .2s}
+.fg input:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.lbtn{width:100%;padding:13px;margin-top:6px;background:linear-gradient(135deg,#3b82f6,#6366f1);border:none;border-radius:11px;color:#fff;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:opacity .2s,transform .15s;box-shadow:0 8px 24px rgba(59,130,246,.3)}
+.lbtn:hover{opacity:.9;transform:translateY(-1px)}.lbtn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.lerr{margin-top:14px;padding:10px 14px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:9px;color:#fca5a5;font-size:13px;display:none}
+.lhint{margin-top:20px;padding:13px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.13);border-radius:10px;font-size:12px;color:var(--m2);line-height:1.8}
+.lhint b{color:var(--ac)}.lhint code{background:rgba(255,255,255,.07);padding:1px 5px;border-radius:4px;font-size:11px}
+
+/* LAYOUT */
+#app{display:none}
+.layout{display:flex;min-height:100vh}
+.sb{width:var(--sw);background:var(--s1);border-right:1px solid var(--bd);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+.sbl{padding:22px 18px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bd)}
+.sbli{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.sblt{font-family:'DM Serif Display',serif;font-size:19px;color:var(--wh)}.sblt em{color:var(--ac);font-style:normal}
+.atag{font-size:9px;font-weight:700;background:rgba(59,130,246,.2);color:var(--ac);padding:2px 7px;border-radius:5px;letter-spacing:.06em;margin-left:3px;border:1px solid rgba(59,130,246,.2);vertical-align:middle}
+.sbsc{padding:18px 16px 4px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu)}
+.sbn{flex:1;padding:6px 0;overflow-y:auto}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;margin:2px 8px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--m2);transition:all .15s}
+.ni:hover{background:var(--s2);color:var(--tx)}.ni.active{background:rgba(59,130,246,.13);color:var(--ac)}
+.ni .ic{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.nbdg{margin-left:auto;min-width:20px;text-align:center;background:var(--rd);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px}
+.nbdg.y{background:var(--yw)}.nbdg.g{background:var(--gn)}.nbdg.p{background:var(--pu)}
+.sbf{padding:14px;border-top:1px solid var(--bd)}
+.abr{display:flex;align-items:center;gap:10px;padding:10px;background:var(--s2);border-radius:10px}
+.abr .av{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff}
+.abr .inf .nm{font-size:13px;font-weight:600;color:var(--tx)}.abr .inf .rl{font-size:11px;color:var(--mu)}
+.lob{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--mu);font-size:17px;padding:4px;transition:color .15s}.lob:hover{color:var(--rd)}
+.main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column}
+.tb{height:62px;border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 28px;gap:12px;position:sticky;top:0;z-index:50;background:rgba(8,11,18,.9);backdrop-filter:blur(14px)}
+.tbt{font-family:'DM Serif Display',serif;font-size:21px;color:var(--wh);flex:1}
+.tbd{width:8px;height:8px;border-radius:50%;background:var(--gn);box-shadow:0 0 0 3px rgba(16,185,129,.2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,.2)}50%{box-shadow:0 0 0 6px rgba(16,185,129,.06)}}
+.tbm{font-size:12px;color:var(--mu)}
+.tbr{background:none;border:1px solid var(--bd);border-radius:7px;color:var(--m2);cursor:pointer;padding:5px 10px;font-size:12px;font-family:'DM Sans',sans-serif;transition:all .15s}.tbr:hover{background:var(--s2);color:var(--tx)}
+
+.pg{display:none;padding:26px;animation:fin .22s ease}.pg.active{display:block}
+@keyframes fin{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+/* STATS GRID */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
+.sc{background:var(--s1);border:1px solid var(--bd);border-radius:15px;padding:20px 22px;position:relative;overflow:hidden;transition:border-color .2s}
+.sc:hover{border-color:rgba(255,255,255,.12)}
+.sc::after{content:'';position:absolute;top:-24px;right:-24px;width:90px;height:90px;border-radius:50%;opacity:.07}
+.sc.b::after{background:var(--ac)}.sc.g::after{background:var(--gn)}.sc.r::after{background:var(--rd)}.sc.y::after{background:var(--yw)}.sc.p::after{background:var(--pu)}.sc.pk::after{background:var(--pk)}
+.sc .ico{font-size:22px;margin-bottom:14px}
+.sc .val{font-family:'DM Serif Display',serif;font-size:34px;color:var(--wh);line-height:1;margin-bottom:3px}
+.sc .lbl{font-size:11.5px;color:var(--mu);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.sc .chg{margin-top:9px;font-size:12px;font-weight:500}.chg.up{color:var(--gn)}.chg.wa{color:var(--yw)}.chg.dn{color:var(--rd)}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:15px;overflow:hidden;margin-bottom:20px}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:17px 22px;border-bottom:1px solid var(--bd)}
+.ct{font-size:14px;font-weight:600;color:var(--tx)}.ca{display:flex;gap:8px;align-items:center}
+.fbar{display:flex;gap:8px;padding:13px 20px;border-bottom:1px solid var(--bd);flex-wrap:wrap;align-items:center}
+.fi{background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:8px 12px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;flex:1;min-width:160px;transition:border-color .2s}
+.fi:focus{border-color:var(--ac)}
+.fb{padding:8px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--s2);color:var(--m2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.fb:hover,.fb.active{background:var(--ac);border-color:var(--ac);color:#fff}
+.fb.r.active{background:var(--rd);border-color:var(--rd)}
+.fb.g.active{background:var(--gn);border-color:var(--gn)}
+.fb.y.active{background:var(--yw);border-color:var(--yw)}
+
+/* TABLE */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 16px;text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);background:var(--s2);border-bottom:1px solid var(--bd);white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--m2);vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.02)}
+.tdm{color:var(--tx);font-weight:500}
+
+/* BADGES */
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap}
+.bdg::before{content:'●';font-size:7px}
+.bg{background:rgba(16,185,129,.12);color:#34d399}.br{background:rgba(239,68,68,.12);color:#f87171}
+.by{background:rgba(245,158,11,.12);color:#fbbf24}.bb{background:rgba(59,130,246,.12);color:#60a5fa}
+.bgr{background:rgba(107,114,128,.15);color:#9ca3af}.bp{background:rgba(139,92,246,.12);color:#a78bfa}
+.bpk{background:rgba(236,72,153,.12);color:#f472b6}
+
+/* BUTTONS */
+.btn{padding:7px 13px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s,transform .1s;white-space:nowrap}
+.btn:hover{opacity:.85}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.bap{background:rgba(16,185,129,.18);color:#34d399;border:1px solid rgba(16,185,129,.28)}
+.brj{background:rgba(239,68,68,.14);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.bdl{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.14)}
+.bpr{background:var(--ac);color:#fff}.bgh{background:var(--s2);color:var(--m2);border:1px solid var(--bd)}
+.bmt{background:rgba(139,92,246,.18);color:#a78bfa;border:1px solid rgba(139,92,246,.28)}
+.bfl{background:rgba(16,185,129,.25);color:#34d399;border:1px solid rgba(16,185,129,.4)}
+.bsm{padding:5px 10px;font-size:11px}.ag{display:flex;gap:5px;flex-wrap:wrap}
+
+/* MODAL */
+.mov{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);animation:fin .2s ease}
+.modal{background:var(--s1);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px 26px;width:580px;max-width:93vw;max-height:88vh;overflow-y:auto;box-shadow:0 50px 100px rgba(0,0,0,.6);animation:rise .25s cubic-bezier(.22,.68,0,1.2)}
+.mh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.mt{font-family:'DM Serif Display',serif;font-size:20px;color:var(--wh)}
+.mcl{background:none;border:none;cursor:pointer;color:var(--mu);font-size:20px;padding:4px;transition:color .15s}.mcl:hover{color:var(--tx)}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:18px}
+.di label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);display:block;margin-bottom:3px}
+.di span{font-size:13.5px;color:var(--tx)}.di.full{grid-column:1/-1}
+.mreply{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:11px 13px;width:100%;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;resize:vertical;min-height:80px;outline:none;transition:border-color .2s;margin-bottom:12px}
+.mreply:focus{border-color:var(--ac)}
+.ms{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:8px;margin-top:16px}
+
+/* DONATION SPECIFIC */
+.don-tabs{display:flex;gap:0;border-bottom:1px solid var(--bd);padding:0 22px}
+.dtab{padding:13px 18px;font-size:13px;font-weight:500;color:var(--m2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.dtab:hover{color:var(--tx)}.dtab.active{color:var(--ac);border-bottom-color:var(--ac)}
+.dtab.blood.active{color:var(--rd);border-bottom-color:var(--rd)}
+.dtab.organ.active{color:var(--pu);border-bottom-color:var(--pu)}
+.dtab.fin.active{color:var(--gn);border-bottom-color:var(--gn)}
+
+.don-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:20px 22px;border-bottom:1px solid var(--bd)}
+.dst{background:var(--s2);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px}
+.dst .dstv{font-family:'DM Serif Display',serif;font-size:28px;color:var(--wh)}
+.dst .dstl{font-size:11.5px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em}
+.dst .dsts{font-size:12px;font-weight:500;margin-top:2px}
+
+/* MATCH PANEL */
+.match-panel{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:16px;margin-bottom:16px}
+.match-title{font-size:13px;font-weight:600;color:#a78bfa;margin-bottom:10px}
+.match-select{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:9px 12px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:8px;transition:border-color .2s}
+.match-select:focus{border-color:var(--pu)}
+
+/* URGENCY */
+.urg-c{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.urg-critical{background:rgba(239,68,68,.18);color:#f87171}.urg-high{background:rgba(245,158,11,.15);color:#fbbf24}.urg-normal{background:rgba(107,114,128,.15);color:#9ca3af}
+
+/* TYPE ICON */
+.tpico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.tpico.bl{background:rgba(239,68,68,.14)}.tpico.or{background:rgba(139,92,246,.14)}.tpico.fn{background:rgba(16,185,129,.14)}
+
+/* LOADER / EMPTY */
+.lds{display:flex;align-items:center;justify-content:center;padding:48px 20px;color:var(--mu);font-size:13px;gap:10px;flex-direction:column}
+.spin{width:26px;height:26px;border:2px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:sp .65s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:48px 20px;color:var(--mu)}.empty .ico{font-size:38px;margin-bottom:12px;opacity:.35}.empty p{font-size:14px}
+
+/* TOAST */
+.tc{position:fixed;bottom:22px;right:22px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:500;color:#fff;min-width:230px;box-shadow:0 10px 28px rgba(0,0,0,.45);animation:rise .3s ease;display:flex;align-items:center;gap:8px}
+.toast.s{background:linear-gradient(135deg,#10b981,#059669)}.toast.e{background:linear-gradient(135deg,#ef4444,#dc2626)}.toast.i{background:linear-gradient(135deg,#3b82f6,#2563eb)}
+
+/* MISC */
+.stars{color:var(--yw);letter-spacing:2px}
+.uav{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,#3b82f6,#8b5cf6);margin-right:8px;vertical-align:middle;flex-shrink:0}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.srow:last-child{border-bottom:none}.srow .desc{font-size:12px;color:var(--m2);margin-top:2px}
+.tgl{width:42px;height:24px;background:var(--s3);border-radius:99px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.tgl.on{background:var(--ac)}.tgl::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s}.tgl.on::after{transform:translateX(18px)}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:99px}
+@media(max-width:900px){.sg{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="lp">
+  <div class="lc">
+    <div class="lb"><div class="li">🏥</div><div class="ln">Medi<em>Care</em></div></div>
+    <div class="lh">Admin Panel</div>
+    <div class="ls">Sign in with your admin credentials</div>
+    <div class="fg"><label>Email</label><input type="email" id="l-em" value="superadmin@medicare.com"/></div>
+    <div class="fg"><label>Password</label><input type="password" id="l-pw" value="SuperAdmin@123"/></div>
+    <button class="lbtn" id="l-btn" onclick="doLogin()">Sign In to Dashboard</button>
+    <div class="lerr" id="l-err"></div>
+    <div class="lhint">🚀 Served at <b>http://localhost:5000/admin</b><br>Default: <b>superadmin@medicare.com</b> / <b>SuperAdmin@123</b><br>First time? → <code>node scripts/createSuperAdmin.js</code></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="app">
+ <div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sb">
+    <div class="sbl"><div class="sbli">🏥</div><div class="sblt">Medi<em>Care</em><span class="atag">ADMIN</span></div></div>
+    <nav class="sbn">
+      <div class="sbsc">Overview</div>
+      <div class="ni active" onclick="go('overview',this)"><span class="ic">📊</span>Dashboard</div>
+      <div class="sbsc">Management</div>
+      <div class="ni" onclick="go('hospitals',this)"><span class="ic">🏨</span>Hospitals<span class="nbdg y" id="pb" style="display:none">0</span></div>
+      <div class="ni" onclick="go('users',this)"><span class="ic">👥</span>Users</div>
+      <div class="ni" onclick="go('orders',this)"><span class="ic">💊</span>Medicine Orders<span class="nbdg g" id="ordb" style="display:none">0</span></div>
+      <div class="ni" onclick="go('feedback',this)"><span class="ic">💬</span>Feedback<span class="nbdg" id="ub" style="display:none">0</span></div>
+      <div class="sbsc">Donations</div>
+      <div class="ni" onclick="go('donations',this)"><span class="ic">🩸</span>All Donations<span class="nbdg y" id="donb" style="display:none">0</span></div>
+      <div class="ni" onclick="go('don-blood',this)"><span class="ic" style="color:#f87171">🩸</span>Blood</div>
+      <div class="ni" onclick="go('don-organ',this)"><span class="ic" style="color:#a78bfa">🫀</span>Organ</div>
+      <div class="ni" onclick="go('don-financial',this)"><span class="ic" style="color:#34d399">💰</span>Financial</div>
+      <div class="sbsc">System</div>
+      <div class="ni" onclick="go('activity',this)"><span class="ic">📋</span>Activity Log</div>
+      <div class="ni" onclick="go('settings',this)"><span class="ic">⚙️</span>Settings</div>
+    </nav>
+    <div class="sbf">
+      <div class="abr">
+        <div class="av" id="av-i">SA</div>
+        <div class="inf"><div class="nm" id="av-n">Super Admin</div><div class="rl" id="av-r">Super Admin</div></div>
+        <button class="lob" onclick="doLogout()">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="tb">
+      <div class="tbt" id="tb-t">Dashboard</div>
+      <div class="tbd" id="db-dot"></div>
+      <button class="tbr" onclick="loadAll()">↻ Refresh</button>
+      <div class="tbm" id="tb-d"></div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="pg active" id="page-overview">
+      <div class="sg">
+        <div class="sc b"><div class="ico">🏨</div><div class="val" id="s-h">—</div><div class="lbl">Hospitals</div><div class="chg up" id="s-ha">—</div></div>
+        <div class="sc r"><div class="ico">🩸</div><div class="val" id="s-db">—</div><div class="lbl">Blood Requests</div><div class="chg wa" id="s-dbp">—</div></div>
+        <div class="sc p"><div class="ico">🫀</div><div class="val" id="s-do">—</div><div class="lbl">Organ Requests</div><div class="chg wa" id="s-dop">—</div></div>
+        <div class="sc g"><div class="ico">💰</div><div class="val" id="s-df">—</div><div class="lbl">Financial Requests</div><div class="chg wa" id="s-dfp">—</div></div>
+      </div>
+      <div class="sg" style="grid-template-columns:repeat(4,1fr)">
+        <div class="sc y"><div class="ico">👥</div><div class="val" id="s-u">—</div><div class="lbl">Users</div><div class="chg up">Registered</div></div>
+        <div class="sc pk"><div class="ico">🤝</div><div class="val" id="s-dof">—</div><div class="lbl">Donor Offers</div><div class="chg wa" id="s-dofp">—</div></div>
+        <div class="sc g"><div class="ico">✅</div><div class="val" id="s-mat">—</div><div class="lbl">Matched</div><div class="chg up">Donor ↔ Hospital</div></div>
+        <div class="sc b"><div class="ico">🎯</div><div class="val" id="s-ful">—</div><div class="lbl">Fulfilled</div><div class="chg up">Completed</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div class="card">
+          <div class="ch"><div class="ct">🏥 Pending Hospital Requests</div><button class="btn bgh bsm" onclick="go('donations',null)">View All</button></div>
+          <div id="ov-dreq"><div class="lds"><div class="spin"></div></div></div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">🤝 Pending Donor Offers</div><button class="btn bgh bsm" onclick="go('donations',null)">View All</button></div>
+          <div id="ov-doff"><div class="lds"><div class="spin"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOSPITALS -->
+    <div class="pg" id="page-hospitals">
+      <div class="card">
+        <div class="ch"><div class="ct">🏨 Hospital Management</div><div class="ca"><span id="hc-l" style="font-size:12px;color:var(--mu)"></span><button class="btn bgh bsm" onclick="fetchHospitals()">↻ Refresh</button></div></div>
+        <div class="fbar">
+          <input class="fi" type="text" placeholder="Search hospital, city, admin…" id="h-s" oninput="renderH()"/>
+          <button class="fb active" id="hf-a" onclick="hf('all',this)">All</button>
+          <button class="fb" id="hf-p" onclick="hf('pending',this)">Pending</button>
+          <button class="fb" id="hf-ap" onclick="hf('approved',this)">Approved</button>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>Hospital</th><th>Location</th><th>Admin</th><th>Doctors</th><th>Registered</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="h-tb"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="pg" id="page-users">
+      <div class="card">
+        <div class="ch"><div class="ct">👥 Registered Users</div><div class="ca"><span id="uc-l" style="font-size:12px;color:var(--mu)"></span><button class="btn bgh bsm" onclick="fetchUsers()">↻ Refresh</button></div></div>
+        <div class="fbar"><input class="fi" type="text" placeholder="Search name, email, phone…" id="u-s" oninput="renderU()"/></div>
+        <div class="tw"><table>
+          <thead><tr><th>User</th><th>Email</th><th>Phone</th><th>Blood Group</th><th>Gender</th><th>Role</th><th>Joined</th></tr></thead>
+          <tbody id="u-tb"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="pg" id="page-orders">
+      <div class="sg" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px">
+        <div class="sc b"><div class="ico">📦</div><div class="val" id="ord-total">—</div><div class="lbl">Total Orders</div></div>
+        <div class="sc y"><div class="ico">🕐</div><div class="val" id="ord-placed">—</div><div class="lbl">Placed</div></div>
+        <div class="sc p"><div class="ico">🚚</div><div class="val" id="ord-shipped">—</div><div class="lbl">Shipped</div></div>
+        <div class="sc g"><div class="ico">✅</div><div class="val" id="ord-delivered">—</div><div class="lbl">Delivered</div></div>
+      </div>
+      <div class="card">
+        <div class="ch">
+          <div class="ct">💊 Medicine Orders</div>
+          <div class="ca">
+            <span id="ord-count" style="font-size:12px;color:var(--mu)"></span>
+            <button class="btn bgh bsm" onclick="fetchOrders()">↻ Refresh</button>
+          </div>
+        </div>
+        <div class="fbar">
+          <input class="fi" type="text" placeholder="Search patient, medicine, email…" id="ord-s" oninput="renderOrders()"/>
+          <button class="fb active" id="orf-all" onclick="ordFilter('all',this)">All</button>
+          <button class="fb y" id="orf-placed" onclick="ordFilter('Placed',this)">Placed</button>
+          <button class="fb" style="background:rgba(139,92,246,.1);color:#a78bfa" id="orf-proc" onclick="ordFilter('Processing',this)">Processing</button>
+          <button class="fb" id="orf-ship" onclick="ordFilter('Shipped',this)">Shipped</button>
+          <button class="fb g" id="orf-del" onclick="ordFilter('Delivered',this)">Delivered</button>
+          <button class="fb r" id="orf-can" onclick="ordFilter('Cancelled',this)">Cancelled</button>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>Order ID</th><th>Patient</th><th>Items</th><th>Total</th><th>Payment</th><th>Address</th><th>Ordered On</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="ord-tb"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ORDER DETAIL MODAL -->
+    <div id="ord-modal" style="display:none" class="mov" onclick="if(event.target===this)closeModal('ord-modal')">
+      <div class="modal" style="max-width:640px">
+        <div class="mh">
+          <div>
+            <div class="mt" id="ordm-title">Order Details</div>
+            <div style="margin-top:4px" id="ordm-badges"></div>
+          </div>
+          <button class="mcl" onclick="closeModal('ord-modal')">✕</button>
+        </div>
+        <div id="ordm-body"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
+          <select id="ordm-status" style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none">
+            <option value="Placed">📦 Placed</option>
+            <option value="Processing">⚙️ Processing</option>
+            <option value="Shipped">🚚 Shipped</option>
+            <option value="Delivered">✅ Delivered</option>
+            <option value="Cancelled">❌ Cancelled</option>
+          </select>
+          <button class="btn bap" onclick="updateOrderStatus()">Update Status</button>
+          <button class="btn bgh" onclick="closeModal('ord-modal')">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="pg" id="page-feedback">
+      <div class="card">
+        <div class="ch"><div class="ct">💬 Feedback</div><div class="ca"><span id="fc-l" style="font-size:12px;color:var(--mu)"></span><button class="btn bgh bsm" onclick="fetchFeedback()">↻ Refresh</button></div></div>
+        <div class="fbar">
+          <input class="fi" type="text" placeholder="Search feedback…" id="fb-s" oninput="renderFB()"/>
+          <button class="fb active" id="ff-a" onclick="fbf('all',this)">All</button>
+          <button class="fb" id="ff-u" onclick="fbf('unread',this)">Unread</button>
+          <button class="fb" id="ff-r" onclick="fbf('read',this)">Read</button>
+          <button class="fb" id="ff-p" onclick="fbf('replied',this)">Replied</button>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>From</th><th>Category</th><th>Rating</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="fb-tb"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ALL DONATIONS -->
+    <div class="pg" id="page-donations">
+      <!-- Stats Row -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="don-stat-grid">
+          <div class="dst"><div class="dstv" id="ds-tr">—</div><div class="dstl">Hospital Requests</div><div class="dsts wa" id="ds-tp">— pending</div></div>
+          <div class="dst"><div class="dstv" id="ds-of">—</div><div class="dstl">Donor Offers</div><div class="dsts wa" id="ds-op">— pending</div></div>
+          <div class="dst"><div class="dstv" id="ds-mt">—</div><div class="dstl">Matched Pairs</div><div class="dsts up" id="ds-fl">— fulfilled</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--bd)">
+          <div style="padding:16px 22px;border-right:1px solid var(--bd)">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin-bottom:8px">🩸 Blood</div>
+            <div style="display:flex;gap:16px"><span style="font-size:13px;color:var(--tx)">Requests: <b id="ds-br">0</b></span><span style="font-size:13px;color:var(--tx)">Offers: <b id="ds-bo">0</b></span></div>
+          </div>
+          <div style="padding:16px 22px;border-right:1px solid var(--bd)">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin-bottom:8px">🫀 Organ</div>
+            <div style="display:flex;gap:16px"><span style="font-size:13px;color:var(--tx)">Requests: <b id="ds-or">0</b></span><span style="font-size:13px;color:var(--tx)">Offers: <b id="ds-oo">0</b></span></div>
+          </div>
+          <div style="padding:16px 22px">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin-bottom:8px">💰 Financial</div>
+            <div style="display:flex;gap:16px"><span style="font-size:13px;color:var(--tx)">Requests: <b id="ds-fr">0</b></span><span style="font-size:13px;color:var(--tx)">Offers: <b id="ds-fo">0</b></span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Tabs + Table -->
+      <div class="card">
+        <div class="ch"><div class="ct" id="don-table-title">All Donation Entries</div><div class="ca"><span id="don-c" style="font-size:12px;color:var(--mu)"></span><button class="btn bgh bsm" onclick="fetchDonations()">↻ Refresh</button></div></div>
+        <div class="don-tabs">
+          <div class="dtab active" id="dt-all" onclick="donTab('all',this)">All</div>
+          <div class="dtab blood" id="dt-hr" onclick="donTab('hospital_request',this)">🏥 Hospital Requests</div>
+          <div class="dtab" id="dt-do" onclick="donTab('donor_offer',this)">🤝 Donor Offers</div>
+          <div class="dtab" id="dt-pen" onclick="donTab('pending',this)">⏳ Pending</div>
+          <div class="dtab" id="dt-apr" onclick="donTab('approved',this)">✅ Approved</div>
+        </div>
+        <div class="fbar">
+          <input class="fi" type="text" placeholder="Search name, hospital, donor…" id="don-s" oninput="renderDon()"/>
+          <button class="fb active" id="df-a" onclick="donTypeFilter('all',this)">All Types</button>
+          <button class="fb r" id="df-b" onclick="donTypeFilter('blood',this)">🩸 Blood</button>
+          <button class="fb" style="--c:var(--pu)" id="df-o" onclick="donTypeFilter('organ',this)">🫀 Organ</button>
+          <button class="fb g" id="df-f" onclick="donTypeFilter('financial',this)">💰 Financial</button>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>Type</th><th>From</th><th>Details</th><th>Urgency</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="don-tb"><tr><td colspan="7"><div class="lds"><div class="spin"></div><span>Loading…</span></div></td></tr></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- BLOOD DONATIONS -->
+    <div class="pg" id="page-don-blood">
+      <div class="card">
+        <div class="ch"><div class="ct">🩸 Blood Donation Management</div><button class="btn bgh bsm" onclick="fetchDonations()">↻ Refresh</button></div>
+        <div class="don-tabs">
+          <div class="dtab blood active" id="dbt-all" onclick="subDonTab('blood','all',this)">All</div>
+          <div class="dtab blood" id="dbt-hr" onclick="subDonTab('blood','hospital_request',this)">🏥 Hospital Requests</div>
+          <div class="dtab blood" id="dbt-do" onclick="subDonTab('blood','donor_offer',this)">🤝 Donor Offers</div>
+          <div class="dtab blood" id="dbt-pe" onclick="subDonTab('blood','pending',this)">⏳ Pending</div>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>Type</th><th>From / Hospital</th><th>Blood Group</th><th>Units</th><th>Urgency</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="bl-tb"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ORGAN DONATIONS -->
+    <div class="pg" id="page-don-organ">
+      <div class="card">
+        <div class="ch"><div class="ct">🫀 Organ Donation Management</div><button class="btn bgh bsm" onclick="fetchDonations()">↻ Refresh</button></div>
+        <div class="don-tabs">
+          <div class="dtab organ active" id="dot-all" onclick="subDonTab('organ','all',this)">All</div>
+          <div class="dtab organ" id="dot-hr" onclick="subDonTab('organ','hospital_request',this)">🏥 Hospital Requests</div>
+          <div class="dtab organ" id="dot-do" onclick="subDonTab('organ','donor_offer',this)">🤝 Donor Offers</div>
+          <div class="dtab organ" id="dot-pe" onclick="subDonTab('organ','pending',this)">⏳ Pending</div>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>Type</th><th>From / Hospital</th><th>Organ</th><th>Donor Status</th><th>Urgency</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="or-tb"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- FINANCIAL DONATIONS -->
+    <div class="pg" id="page-don-financial">
+      <div class="card">
+        <div class="ch"><div class="ct">💰 Financial Aid Management</div><button class="btn bgh bsm" onclick="fetchDonations()">↻ Refresh</button></div>
+        <div class="don-tabs">
+          <div class="dtab fin active" id="dft-all" onclick="subDonTab('financial','all',this)">All</div>
+          <div class="dtab fin" id="dft-hr" onclick="subDonTab('financial','hospital_request',this)">🏥 Hospital Requests</div>
+          <div class="dtab fin" id="dft-do" onclick="subDonTab('financial','donor_offer',this)">🤝 Donor Offers</div>
+          <div class="dtab fin" id="dft-pe" onclick="subDonTab('financial','pending',this)">⏳ Pending</div>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>Type</th><th>From / Hospital</th><th>Amount</th><th>Purpose</th><th>Urgency</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="fn-tb"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="pg" id="page-activity">
+      <div class="card">
+        <div class="ch"><div class="ct">📋 Activity Log</div><button class="btn bgh bsm" onclick="fetchActivity()">↻ Refresh</button></div>
+        <div style="padding:4px 20px 20px" id="act-tl"></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="pg" id="page-settings">
+      <div style="max-width:580px"><div class="card"><div class="ch"><div class="ct">⚙️ Settings</div></div>
+        <div style="padding:22px">
+          <div style="margin-bottom:22px">
+            <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd)">Server</div>
+            <div style="background:var(--s2);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--m2);line-height:2">
+              API + Admin: <b style="color:var(--ac)">http://localhost:5000</b><br>
+              Admin URL: <b style="color:var(--ac)">http://localhost:5000/admin</b><br>
+              React frontend: <b style="color:var(--tx)">http://localhost:3000</b>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd)">Danger Zone</div>
+            <div class="srow"><div><div style="font-size:13.5px;color:#f87171">Sign out</div><div class="desc">Clears session and returns to login</div></div><button class="btn brj" onclick="doLogout()">Sign Out</button></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div><!-- /main -->
+ </div>
+</div>
+
+<!-- DONATION DETAIL MODAL -->
+<div id="don-modal" style="display:none" class="mov" onclick="if(event.target===this)closeModal('don-modal')">
+  <div class="modal">
+    <div class="mh">
+      <div>
+        <div class="mt" id="dm-title">Donation Detail</div>
+        <div style="margin-top:4px" id="dm-badges"></div>
+      </div>
+      <button class="mcl" onclick="closeModal('don-modal')">✕</button>
+    </div>
+    <!-- fields -->
+    <div class="dg" id="dm-fields"></div>
+    <!-- match panel (only for pending hospital requests) -->
+    <div id="dm-match" style="display:none">
+      <div class="ms">Match with a Donor Offer</div>
+      <div class="match-panel">
+        <div class="match-title">🔗 Select compatible donor offer to match</div>
+        <select class="match-select" id="dm-match-sel">
+          <option value="">— Select a donor offer —</option>
+        </select>
+      </div>
+    </div>
+    <div class="ms">Admin Note</div>
+    <textarea class="mreply" id="dm-note" placeholder="Internal note (optional)…"></textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap" id="dm-actions"></div>
+  </div>
+</div>
+
+<!-- HOSPITAL MODAL -->
+<div id="h-modal" style="display:none" class="mov" onclick="if(event.target===this)closeModal('h-modal')">
+  <div class="modal">
+    <div class="mh"><div class="mt" id="hm-n">Hospital</div><button class="mcl" onclick="closeModal('h-modal')">✕</button></div>
+    <div class="dg" id="hm-fields"></div>
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:8px">Doctors (<span id="hm-dc">0</span>)</div>
+    <div id="hm-docs" style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px"></div>
+    <div style="display:flex;gap:8px" id="hm-act"></div>
+  </div>
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div id="fb-modal" style="display:none" class="mov" onclick="if(event.target===this)closeModal('fb-modal')">
+  <div class="modal">
+    <div class="mh"><div class="mt">Feedback Detail</div><button class="mcl" onclick="closeModal('fb-modal')">✕</button></div>
+    <div class="dg">
+      <div class="di"><label>From</label><span id="fm-n"></span></div>
+      <div class="di"><label>Email</label><span id="fm-e"></span></div>
+      <div class="di"><label>Rating</label><span id="fm-r" class="stars"></span></div>
+      <div class="di"><label>Category</label><span id="fm-c"></span></div>
+      <div class="di full"><label>Message</label><div style="background:var(--s2);border-radius:8px;padding:12px;font-size:13.5px;color:var(--tx);line-height:1.7;margin-top:4px" id="fm-m"></div></div>
+    </div>
+    <div id="fm-prev-w" style="display:none;margin-bottom:14px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ac);margin-bottom:6px">Previous Reply</div>
+      <div style="background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:12px;font-size:13px;color:var(--tx)" id="fm-prev"></div>
+    </div>
+    <textarea class="mreply" id="fm-rep" placeholder="Type your reply…"></textarea>
+    <div style="display:flex;gap:8px">
+      <button class="btn bpr" onclick="sendReply()">Send Reply</button>
+      <button class="btn bgh" onclick="markRead()">Mark Read</button>
+      <button class="btn bdl" onclick="deleteFB()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="tc" id="tc"></div>
+
+<script>
+// ── CONFIG ─────────────────────────────────────────────────────────────────
+const API = window.location.origin;
+let tok='', uname='Admin', urole='admin';
+let hospitals=[], feedbacks=[], activity=[], users=[], allDonations=[];
+let hFilter='all', fbFilter='all', activeFbId=null, activeDonId=null;
+let donMainFilter='all', donTypeF='all';
+let bloodSubF='all', organSubF='all', finSubF='all';
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+window.onload = () => {
+  document.getElementById('tb-d').textContent = new Date().toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+  tok   = sessionStorage.getItem('mc_tok')  || '';
+  uname = sessionStorage.getItem('mc_name') || 'Admin';
+  urole = sessionStorage.getItem('mc_role') || 'admin';
+  if (tok) enterApp();
+};
+document.addEventListener('keydown', e => { if(e.key==='Enter' && document.getElementById('lp').style.display!=='none') doLogin(); });
+
+// ── AUTH ───────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const em=v('l-em'), pw=v('l-pw');
+  const btn=g('l-btn'), errEl=g('l-err');
+  errEl.style.display='none'; btn.textContent='Signing in…'; btn.disabled=true;
+  try {
+    const res=await fetch(`${API}/api/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})});
+    const d=await res.json();
+    if(!res.ok) throw new Error(d.message||'Login failed');
+    if(!['admin','super_admin'].includes(d.role)) throw new Error('Access denied — not an admin account');
+    tok=d.token; uname=d.name||em; urole=d.role;
+    sessionStorage.setItem('mc_tok',tok); sessionStorage.setItem('mc_name',uname); sessionStorage.setItem('mc_role',urole);
+    enterApp();
+  } catch(e){ errEl.textContent=e.message; errEl.style.display='block'; }
+  finally{ btn.textContent='Sign In to Dashboard'; btn.disabled=false; }
+}
+function enterApp(){
+  g('lp').style.display='none'; g('app').style.display='block';
+  g('av-n').textContent=uname; g('av-r').textContent=urole==='super_admin'?'Super Admin':'Admin';
+  g('av-i').textContent=uname.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  loadAll();
+}
+function doLogout(){ tok=''; sessionStorage.clear(); g('app').style.display='none'; g('lp').style.display='flex'; }
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+const T={overview:'Dashboard',hospitals:'Hospital Management',users:'User Management',orders:'Medicine Orders',feedback:'Feedback',
+  donations:'All Donations','don-blood':'Blood Donations','don-organ':'Organ Donations','don-financial':'Financial Aid',
+  activity:'Activity Log',settings:'Settings'};
+
+function go(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  g('page-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  g('tb-t').textContent=T[id]||id;
+  if(id==='hospitals') renderH();
+  if(id==='feedback')  renderFB();
+  if(id==='activity')  renderAct();
+  if(id==='users')     renderU();
+  if(id==='donations') renderDon();
+  if(id==='orders')    renderOrders();
+  if(id==='don-blood')     renderSubDon('blood','bl-tb');
+  if(id==='don-organ')     renderSubDon('organ','or-tb');
+  if(id==='don-financial') renderSubDon('financial','fn-tb');
+}
+
+// ── API ────────────────────────────────────────────────────────────────────
+async function api(path,opts={}){
+  const res=await fetch(`${API}${path}`,{...opts,headers:{'Content-Type':'application/json','Authorization':`Bearer ${tok}`,...(opts.headers||{})}});
+  const d=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(d.message||d.msg||`${res.status}`);
+  return d;
+}
+
+// ── LOAD ALL ───────────────────────────────────────────────────────────────
+async function loadAll(){
+  const dot=g('db-dot'); dot.style.background='var(--yw)';
+  await Promise.allSettled([fetchHospitals(),fetchFeedback(),fetchActivity(),fetchUsers(),fetchDonations(),fetchOrders()]);
+  dot.style.background='var(--gn)';
+  renderOverview();
+}
+
+// ── HOSPITALS ──────────────────────────────────────────────────────────────
+async function fetchHospitals(){
+  try{
+    hospitals=await api('/api/admin/hospitals');
+    const p=hospitals.filter(h=>!h.accepted).length, a=hospitals.filter(h=>h.accepted).length;
+    const pb=g('pb'); pb.textContent=p; pb.style.display=p?'':'none';
+    g('s-h').textContent=hospitals.length; g('s-ha').textContent=a+' approved';
+    g('hc-l').textContent=`${hospitals.length} total · ${p} pending`;
+    renderH();
+  }catch(e){ tblErr('h-tb',7,e.message); }
+}
+function hf(f,btn){ hFilter=f; ['hf-a','hf-p','hf-ap'].forEach(id=>g(id).classList.remove('active')); btn.classList.add('active'); renderH(); }
+function renderH(){
+  const q=(v('h-s')||'').toLowerCase();
+  let list=hospitals;
+  if(hFilter==='pending') list=list.filter(h=>!h.accepted);
+  if(hFilter==='approved') list=list.filter(h=>h.accepted);
+  if(q) list=list.filter(h=>(h.hospitalName+h.city+h.adminName+h.email).toLowerCase().includes(q));
+  const tb=g('h-tb');
+  if(!list.length){tb.innerHTML=empty('🏥','No hospitals found');return;}
+  tb.innerHTML=list.map(h=>`<tr>
+    <td><div class="tdm">${x(h.hospitalName)}</div><div style="font-size:11.5px;color:var(--mu)">${x(h.email)}</div></td>
+    <td>${x(h.city)}, ${x(h.state)}</td><td>${x(h.adminName)}</td>
+    <td>${(h.doctors||[]).length}</td><td style="font-size:12px">${fd(h.createdAt)}</td>
+    <td>${h.accepted?'<span class="bdg bg">Approved</span>':'<span class="bdg by">Pending</span>'}</td>
+    <td><div class="ag">
+      <button class="btn bgh bsm" onclick="showH('${h._id}')">View</button>
+      ${!h.accepted?`<button class="btn bap bsm" onclick="updH('${h._id}',true)">Approve</button>`:''}
+      ${h.accepted?`<button class="btn brj bsm" onclick="updH('${h._id}',false)">Revoke</button>`:''}
+      <button class="btn bdl bsm" onclick="delH('${h._id}')">Delete</button>
+    </div></td>
+  </tr>`).join('');
+}
+async function updH(id,accepted){
+  try{ await api(`/api/admin/hospitals/${id}`,{method:'PUT',body:JSON.stringify({accepted})}); toast(accepted?'✅ Approved':'⚠️ Revoked',accepted?'s':'i'); await fetchHospitals(); closeModal('h-modal'); }catch(e){ toast(e.message,'e'); }
+}
+async function delH(id){
+  if(!confirm('Remove this hospital permanently?')) return;
+  try{ await api(`/api/admin/hospitals/${id}`,{method:'DELETE'}); toast('Removed','i'); await fetchHospitals(); closeModal('h-modal'); }catch(e){ toast(e.message,'e'); }
+}
+function showH(id){
+  const h=hospitals.find(v=>v._id===id); if(!h) return;
+  g('hm-n').textContent=h.hospitalName;
+  g('hm-dc').textContent=(h.doctors||[]).length;
+  g('hm-fields').innerHTML=`
+    <div class="di"><label>Email</label><span>${x(h.email)}</span></div>
+    <div class="di"><label>Phone</label><span>${x(h.phone)}</span></div>
+    <div class="di"><label>City</label><span>${x(h.city)}</span></div>
+    <div class="di"><label>State</label><span>${x(h.state)}</span></div>
+    <div class="di full"><label>Address</label><span>${x(h.address)}</span></div>
+    <div class="di"><label>Admin</label><span>${x(h.adminName)}</span></div>
+    <div class="di"><label>Registered</label><span>${fd(h.createdAt)}</span></div>
+    <div class="di"><label>Beds (Total/Avail)</label><span>${h.totalBeds||0} / ${h.availableBeds||0}</span></div>
+    <div class="di"><label>Total Patients</label><span>${h.totalPatients||0}</span></div>`;
+  const docs=h.doctors||[];
+  g('hm-docs').innerHTML=docs.length?docs.map(d=>`<div style="background:var(--s2);border-radius:8px;padding:9px 12px;font-size:13px;display:flex;justify-content:space-between"><span class="tdm">${x(d.name)}</span><span style="color:var(--mu);font-size:12px">${x(d.specialization)}</span></div>`).join(''):'<div style="color:var(--mu);font-size:13px">No doctors listed</div>';
+  g('hm-act').innerHTML=`${!h.accepted?`<button class="btn bap" onclick="updH('${h._id}',true)">✔ Approve</button>`:`<button class="btn brj" onclick="updH('${h._id}',false)">Revoke</button>`}<button class="btn bdl" onclick="delH('${h._id}')">🗑 Delete</button><button class="btn bgh" onclick="closeModal('h-modal')">Close</button>`;
+  g('h-modal').style.display='flex';
+}
+
+// ── USERS ──────────────────────────────────────────────────────────────────
+async function fetchUsers(){
+  try{
+    users=await api('/api/admin/users');
+    g('s-u').textContent=users.filter(u=>u.role==='user').length;
+    g('uc-l').textContent=`${users.length} total`;
+    renderU();
+  }catch(e){ tblErr('u-tb',7,e.message); }
+}
+function renderU(){
+  const q=(v('u-s')||'').toLowerCase();
+  let list=users;
+  if(q) list=list.filter(u=>(u.name+u.email+(u.phone||'')).toLowerCase().includes(q));
+  const tb=g('u-tb');
+  if(!list.length){tb.innerHTML=empty('👥','No users');return;}
+  tb.innerHTML=list.map(u=>`<tr>
+    <td><span class="uav">${(u.name||'?')[0].toUpperCase()}</span><span class="tdm">${x(u.name)}</span></td>
+    <td>${x(u.email)}</td><td>${x(u.phone||'—')}</td>
+    <td>${u.bloodGroup&&u.bloodGroup!=='Unknown'?`<span class="bdg br">${x(u.bloodGroup)}</span>`:'<span style="color:var(--mu)">—</span>'}</td>
+    <td>${x(u.gender||'—')}</td>
+    <td><span class="bdg ${u.role==='super_admin'?'bb':u.role==='admin'?'bp':'bgr'}">${x(u.role)}</span></td>
+    <td style="font-size:12px">${fd(u.createdAt)}</td>
+  </tr>`).join('');
+}
+
+// ── FEEDBACK ───────────────────────────────────────────────────────────────
+async function fetchFeedback(){
+  try{
+    feedbacks=await api('/api/admin/feedback');
+    const u=feedbacks.filter(f=>f.status==='unread').length;
+    const ub=g('ub'); ub.textContent=u; ub.style.display=u?'':'none';
+    g('fc-l').textContent=`${feedbacks.length} total · ${u} unread`;
+    renderFB();
+  }catch(e){ tblErr('fb-tb',7,e.message); }
+}
+function fbf(f,btn){ fbFilter=f; ['ff-a','ff-u','ff-r','ff-p'].forEach(id=>g(id).classList.remove('active')); btn.classList.add('active'); renderFB(); }
+function renderFB(){
+  const q=(v('fb-s')||'').toLowerCase();
+  let list=feedbacks;
+  if(fbFilter!=='all') list=list.filter(f=>f.status===fbFilter);
+  if(q) list=list.filter(f=>(f.name+f.message+f.email).toLowerCase().includes(q));
+  const tb=g('fb-tb');
+  if(!list.length){tb.innerHTML=empty('💬','No feedback');return;}
+  tb.innerHTML=list.map(f=>`<tr>
+    <td><div class="tdm">${x(f.name)}</div><div style="font-size:11px;color:var(--mu)">${x(f.email)}</div></td>
+    <td style="text-transform:capitalize">${x(f.category||'general')}</td>
+    <td><span class="stars">${'★'.repeat(f.rating||0)}${'☆'.repeat(5-(f.rating||0))}</span></td>
+    <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x(f.message)}</td>
+    <td style="font-size:12px">${fd(f.createdAt)}</td>
+    <td><span class="bdg ${f.status==='unread'?'br':f.status==='replied'?'bg':'bgr'}">${f.status}</span></td>
+    <td><div class="ag"><button class="btn bgh bsm" onclick="openFB('${f._id}')">Reply</button><button class="btn bdl bsm" onclick="delFBid('${f._id}')">Delete</button></div></td>
+  </tr>`).join('');
+}
+function openFB(id){
+  const f=feedbacks.find(v=>v._id===id); if(!f) return; activeFbId=id;
+  g('fm-n').textContent=f.name; g('fm-e').textContent=f.email;
+  g('fm-r').textContent='★'.repeat(f.rating||0)+'☆'.repeat(5-(f.rating||0));
+  g('fm-c').textContent=f.category||'general'; g('fm-m').textContent=f.message; g('fm-rep').value='';
+  const pw=g('fm-prev-w');
+  if(f.adminReply){pw.style.display='block';g('fm-prev').textContent=f.adminReply;}else pw.style.display='none';
+  g('fb-modal').style.display='flex';
+  if(f.status==='unread') markRead();
+}
+async function sendReply(){ const r=g('fm-rep').value.trim(); if(!r){toast('Type a reply first','e');return;} try{await api(`/api/admin/feedback/${activeFbId}`,{method:'PUT',body:JSON.stringify({status:'replied',adminReply:r})}); toast('Reply sent','s'); closeModal('fb-modal'); await fetchFeedback();}catch(e){toast(e.message,'e');} }
+async function markRead(){ try{await api(`/api/admin/feedback/${activeFbId}`,{method:'PUT',body:JSON.stringify({status:'read'})}); await fetchFeedback();}catch{} }
+async function deleteFB(){ if(!confirm('Delete?')) return; try{await api(`/api/admin/feedback/${activeFbId}`,{method:'DELETE'}); toast('Deleted','i'); closeModal('fb-modal'); await fetchFeedback();}catch(e){toast(e.message,'e');} }
+async function delFBid(id){ if(!confirm('Delete?')) return; try{await api(`/api/admin/feedback/${id}`,{method:'DELETE'}); toast('Deleted','i'); await fetchFeedback();}catch(e){toast(e.message,'e');} }
+
+// ── DONATIONS ──────────────────────────────────────────────────────────────
+async function fetchDonations(){
+  try{
+    allDonations=await api('/api/donations/admin/all');
+    // stats
+    const stats=await api('/api/donations/admin/stats');
+    g('ds-tr').textContent=stats.totalRequests; g('ds-tp').textContent=stats.pendingRequests+' pending';
+    g('ds-of').textContent=stats.totalOffers;   g('ds-op').textContent=stats.pendingOffers+' pending';
+    g('ds-mt').textContent=stats.matched;        g('ds-fl').textContent=stats.fulfilled+' fulfilled';
+    g('ds-br').textContent=stats.byType.blood.requests;     g('ds-bo').textContent=stats.byType.blood.offers;
+    g('ds-or').textContent=stats.byType.organ.requests;     g('ds-oo').textContent=stats.byType.organ.offers;
+    g('ds-fr').textContent=stats.byType.financial.requests; g('ds-fo').textContent=stats.byType.financial.offers;
+    // overview stats
+    g('s-db').textContent=stats.byType.blood.requests;     g('s-dbp').textContent=stats.byType.blood.requests-stats.byType.blood.offers+' unmatched';
+    g('s-do').textContent=stats.byType.organ.requests;     g('s-dop').textContent=stats.pendingRequests+' pending';
+    g('s-df').textContent=stats.byType.financial.requests; g('s-dfp').textContent=stats.byType.financial.requests+' total';
+    g('s-dof').textContent=stats.totalOffers; g('s-dofp').textContent=stats.pendingOffers+' pending';
+    g('s-mat').textContent=stats.matched; g('s-ful').textContent=stats.fulfilled;
+    // badge
+    const pending=allDonations.filter(d=>d.status==='pending').length;
+    const db=g('donb'); db.textContent=pending; db.style.display=pending?'':'none';
+    renderDon();
+    renderSubDon('blood','bl-tb');
+    renderSubDon('organ','or-tb');
+    renderSubDon('financial','fn-tb');
+    renderOverview();
+  }catch(e){ tblErr('don-tb',7,e.message); }
+}
+
+function donTab(f,btn){
+  donMainFilter=f;
+  ['dt-all','dt-hr','dt-do','dt-pen','dt-apr'].forEach(id=>g(id).classList.remove('active'));
+  btn.classList.add('active'); renderDon();
+}
+function donTypeFilter(f,btn){
+  donTypeF=f;
+  ['df-a','df-b','df-o','df-f'].forEach(id=>g(id).classList.remove('active'));
+  btn.classList.add('active'); renderDon();
+}
+function subDonTab(dtype,subf,btn){
+  if(dtype==='blood')    bloodSubF=subf;
+  if(dtype==='organ')    organSubF=subf;
+  if(dtype==='financial')finSubF=subf;
+  // deactivate siblings
+  btn.parentElement.querySelectorAll('.dtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSubDon(dtype, dtype==='blood'?'bl-tb':dtype==='organ'?'or-tb':'fn-tb');
+}
+
+function filterDonList(list, mainF, typeF){
+  let r=list;
+  if(mainF==='hospital_request') r=r.filter(d=>d.requestType==='hospital_request');
+  else if(mainF==='donor_offer') r=r.filter(d=>d.requestType==='donor_offer');
+  else if(mainF==='pending')     r=r.filter(d=>d.status==='pending');
+  else if(mainF==='approved')    r=r.filter(d=>d.status==='approved');
+  if(typeF!=='all') r=r.filter(d=>d.donationType===typeF);
+  return r;
+}
+
+function renderDon(){
+  const q=(v('don-s')||'').toLowerCase();
+  let list=filterDonList(allDonations,donMainFilter,donTypeF);
+  if(q) list=list.filter(d=>(d.donorName+d.hospitalName+d.donorEmail+d.donorPhone).toLowerCase().includes(q));
+  g('don-c').textContent=list.length+' entries';
+  const tb=g('don-tb');
+  if(!list.length){tb.innerHTML=empty('🩸','No donation entries found');return;}
+  tb.innerHTML=list.map(d=>donRow(d,'all')).join('');
+}
+
+function renderSubDon(dtype, tbid){
+  const subf = dtype==='blood'?bloodSubF:dtype==='organ'?organSubF:finSubF;
+  let list=allDonations.filter(d=>d.donationType===dtype);
+  if(subf==='hospital_request') list=list.filter(d=>d.requestType==='hospital_request');
+  else if(subf==='donor_offer') list=list.filter(d=>d.requestType==='donor_offer');
+  else if(subf==='pending')     list=list.filter(d=>d.status==='pending');
+  const tb=g(tbid);
+  if(!tb) return;
+  if(!list.length){tb.innerHTML=empty('📭','No entries for this filter');return;}
+  tb.innerHTML=list.map(d=>donRow(d,dtype)).join('');
+}
+
+function donRow(d, view){
+  const typeIco = {blood:'🩸',organ:'🫀',financial:'💰'}[d.donationType]||'📦';
+  const typeCls = {blood:'bl',organ:'or',financial:'fn'}[d.donationType]||'';
+  const isReq   = d.requestType==='hospital_request';
+  const fromCell= isReq
+    ? `<div class="tdm">${x(d.hospitalName||'—')}</div><div style="font-size:11px;color:var(--mu)">🏥 Hospital · ${x(d.hospitalCity)}</div>`
+    : `<div class="tdm">${x(d.donorName||'—')}</div><div style="font-size:11px;color:var(--mu)">🤝 Donor · ${x(d.donorPhone||d.donorEmail||'')}</div>`;
+  let detail='—';
+  if(d.donationType==='blood') detail=`${x(d.bloodGroup||'Any')} · ${isReq?d.unitsRequired:d.unitsOffered} unit${(isReq?d.unitsRequired:d.unitsOffered)>1?'s':''}`;
+  if(d.donationType==='organ') detail=`${cap(x(d.organType||'—'))}${!isReq?' · '+(d.donorAlive?'Living donor':'Posthumous'):''}`;
+  if(d.donationType==='financial') detail=isReq?`₹${d.amountRequired} needed`:`₹${d.amountOffered} offered`;
+
+  const urgBadge=`<span class="urg-c urg-${d.urgency||'normal'}">${(d.urgency||'normal').toUpperCase()}</span>`;
+  const statusBadge={pending:'<span class="bdg by">Pending</span>',approved:'<span class="bdg bg">Approved</span>',rejected:'<span class="bdg br">Rejected</span>',matched:'<span class="bdg bp">Matched</span>',fulfilled:'<span class="bdg bg">Fulfilled</span>'}[d.status]||'';
+
+  // extra column for typed views
+  let extraCol='';
+  if(view==='blood')     extraCol=`<td>${x(d.bloodGroup||'Any')}</td><td>${isReq?d.unitsRequired:d.unitsOffered} units</td>`;
+  if(view==='organ')     extraCol=`<td>${cap(x(d.organType||'—'))}</td><td>${!isReq?d.donorAlive?'Living':'Posthumous':'Patient age: '+(d.patientAge||'—')}</td>`;
+  if(view==='financial') extraCol=`<td>${isReq?`₹${d.amountRequired}`:`₹${d.amountOffered}`}</td><td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x(d.purpose||d.patientName||'—')}</td>`;
+
+  return `<tr>
+    <td><div style="display:flex;align-items:center;gap:8px">
+      <div class="tpico ${typeCls}">${typeIco}</div>
+      <div>
+        <div class="tdm">${cap(d.donationType)}</div>
+        <div style="font-size:11px;color:var(--mu)">${isReq?'Hospital Request':'Donor Offer'}</div>
+      </div>
+    </div></td>
+    <td>${fromCell}</td>
+    ${view==='all'?`<td style="font-size:12.5px">${detail}</td>`:''}
+    ${extraCol}
+    <td>${urgBadge}</td>
+    <td style="font-size:12px">${fd(d.createdAt)}</td>
+    <td>${statusBadge}</td>
+    <td><div class="ag">
+      <button class="btn bgh bsm" onclick="openDon('${d._id}')">View</button>
+      ${d.status==='pending'?`<button class="btn bap bsm" onclick="quickAct('${d._id}','approved')">✔</button><button class="btn brj bsm" onclick="quickAct('${d._id}','rejected')">✗</button>`:''}
+      ${d.status==='approved'&&d.requestType==='hospital_request'?`<button class="btn bmt bsm" onclick="openDon('${d._id}')">Match</button>`:''}
+      ${d.status==='matched'?`<button class="btn bfl bsm" onclick="quickAct('${d._id}','fulfilled')">✅ Done</button>`:''}
+    </div></td>
+  </tr>`;
+}
+
+async function quickAct(id, status){
+  try{
+    await api(`/api/donations/admin/${id}`,{method:'PUT',body:JSON.stringify({status})});
+    toast({approved:'✅ Approved',rejected:'❌ Rejected',fulfilled:'🎉 Marked Fulfilled'}[status]||'Updated','s');
+    await fetchDonations();
+  }catch(e){ toast(e.message,'e'); }
+}
+
+function openDon(id){
+  const d=allDonations.find(v=>v._id===id); if(!d) return; activeDonId=id;
+  const isReq=d.requestType==='hospital_request';
+  const typeIco={blood:'🩸',organ:'🫀',financial:'💰'}[d.donationType]||'📦';
+
+  // title + badges
+  g('dm-title').textContent=typeIco+' '+(isReq?'Hospital Request — ':'Donor Offer — ')+cap(d.donationType);
+  g('dm-badges').innerHTML=`<span class="bdg ${d.donationType==='blood'?'br':d.donationType==='organ'?'bp':'bg'}">${cap(d.donationType)}</span> `+
+    `<span class="urg-c urg-${d.urgency||'normal'}" style="margin-left:6px">${(d.urgency||'normal').toUpperCase()}</span> `+
+    `<span style="font-size:11px;color:var(--mu);margin-left:8px">${fd(d.createdAt)}</span>`;
+
+  // fields
+  let fields='';
+  if(isReq){
+    fields+=`<div class="di"><label>Hospital</label><span>${x(d.hospitalName||'—')}</span></div>`;
+    fields+=`<div class="di"><label>City</label><span>${x(d.hospitalCity||'—')}</span></div>`;
+    fields+=`<div class="di"><label>Hospital Email</label><span>${x(d.hospitalEmail||'—')}</span></div>`;
+    fields+=`<div class="di"><label>Hospital Phone</label><span>${x(d.hospitalPhone||'—')}</span></div>`;
+  } else {
+    fields+=`<div class="di"><label>Donor Name</label><span>${x(d.donorName||'—')}</span></div>`;
+    fields+=`<div class="di"><label>Donor Phone</label><span>${x(d.donorPhone||'—')}</span></div>`;
+    fields+=`<div class="di"><label>Donor Email</label><span>${x(d.donorEmail||'—')}</span></div>`;
+    fields+=`<div class="di"><label>Donor Address</label><span>${x(d.donorAddress||'—')}</span></div>`;
+    if(d.donorAge) fields+=`<div class="di"><label>Donor Age</label><span>${d.donorAge}</span></div>`;
+    if(d.donorGender) fields+=`<div class="di"><label>Gender</label><span>${x(d.donorGender)}</span></div>`;
+  }
+  if(d.donationType==='blood'){
+    fields+=`<div class="di"><label>Blood Group</label><span><b>${x(d.bloodGroup||'Any')}</b></span></div>`;
+    fields+=`<div class="di"><label>Units ${isReq?'Required':'Offered'}</label><span>${isReq?d.unitsRequired:d.unitsOffered}</span></div>`;
+  }
+  if(d.donationType==='organ'){
+    fields+=`<div class="di"><label>Organ Type</label><span>${cap(x(d.organType||'—'))}</span></div>`;
+    if(!isReq) fields+=`<div class="di"><label>Donor Type</label><span>${d.donorAlive?'Living Donor':'Posthumous Pledge'}</span></div>`;
+    if(isReq&&d.patientAge) fields+=`<div class="di"><label>Patient Age</label><span>${d.patientAge}</span></div>`;
+  }
+  if(d.donationType==='financial'){
+    fields+=`<div class="di"><label>${isReq?'Amount Required':'Amount Offered'}</label><span><b>₹${isReq?d.amountRequired:d.amountOffered}</b></span></div>`;
+    if(d.paymentMode) fields+=`<div class="di"><label>Payment Mode</label><span>${x(d.paymentMode)}</span></div>`;
+    if(d.patientName) fields+=`<div class="di"><label>Patient Name</label><span>${x(d.patientName)}</span></div>`;
+    if(d.purpose) fields+=`<div class="di full"><label>Purpose</label><span>${x(d.purpose)}</span></div>`;
+  }
+  if(d.notes) fields+=`<div class="di full"><label>Notes</label><span>${x(d.notes)}</span></div>`;
+  if(d.adminNote) fields+=`<div class="di full"><label>Previous Admin Note</label><span style="color:var(--ac)">${x(d.adminNote)}</span></div>`;
+  if(d.matchedWith) fields+=`<div class="di"><label>Matched With ID</label><span style="font-size:11px;color:var(--mu)">${d.matchedWith}</span></div>`;
+  g('dm-fields').innerHTML=fields;
+
+  // match panel: show only for approved hospital_requests
+  const matchPanel=g('dm-match');
+  if(d.status==='approved' && d.requestType==='hospital_request'){
+    matchPanel.style.display='block';
+    const sel=g('dm-match-sel');
+    sel.innerHTML='<option value="">— Select a donor offer —</option>';
+    allDonations.filter(o=>o.requestType==='donor_offer'&&o.donationType===d.donationType&&['pending','approved'].includes(o.status)).forEach(o=>{
+      const opt=document.createElement('option');
+      opt.value=o._id;
+      let label=`${o.donorName} (${o.donorPhone||o.donorEmail})`;
+      if(o.donationType==='blood') label+=` · ${o.bloodGroup} · ${o.unitsOffered} units`;
+      if(o.donationType==='organ') label+=` · ${cap(o.organType)}`;
+      if(o.donationType==='financial') label+=` · ₹${o.amountOffered}`;
+      opt.textContent=label;
+      sel.appendChild(opt);
+    });
+  } else { matchPanel.style.display='none'; }
+
+  g('dm-note').value=d.adminNote||'';
+
+  // actions
+  let acts='';
+  if(d.status==='pending'){
+    acts+=`<button class="btn bap" onclick="actDon('approved')">✔ Approve</button>`;
+    acts+=`<button class="btn brj" onclick="actDon('rejected')">✗ Reject</button>`;
+  }
+  if(d.status==='approved'&&d.requestType==='hospital_request'){
+    acts+=`<button class="btn bmt" onclick="actDon('matched')">🔗 Match to Donor</button>`;
+  }
+  if(d.status==='matched'){
+    acts+=`<button class="btn bfl" onclick="actDon('fulfilled')">🎉 Mark Fulfilled</button>`;
+  }
+  acts+=`<button class="btn bgh" onclick="saveNote()">💾 Save Note</button>`;
+  acts+=`<button class="btn bdl" onclick="actDon('delete')">🗑 Delete</button>`;
+  acts+=`<button class="btn bgh" onclick="closeModal('don-modal')">Close</button>`;
+  g('dm-actions').innerHTML=acts;
+
+  g('don-modal').style.display='flex';
+}
+
+async function actDon(action){
+  if(action==='delete'){ if(!confirm('Delete this entry?')) return; try{await api(`/api/donations/admin/${activeDonId}`,{method:'DELETE'}); toast('Deleted','i'); closeModal('don-modal'); await fetchDonations();}catch(e){toast(e.message,'e');} return; }
+  const note=g('dm-note').value;
+  const body={status:action, adminNote:note};
+  if(action==='matched'){
+    const mw=g('dm-match-sel').value;
+    if(!mw){toast('Select a donor offer to match','e');return;}
+    body.matchedWith=mw;
+    // also update the donor offer to matched
+    await api(`/api/donations/admin/${mw}`,{method:'PUT',body:JSON.stringify({status:'matched',adminNote:'Matched to hospital request'})}).catch(()=>{});
+  }
+  try{
+    await api(`/api/donations/admin/${activeDonId}`,{method:'PUT',body:JSON.stringify(body)});
+    toast({approved:'✅ Approved',rejected:'❌ Rejected',matched:'🔗 Matched!',fulfilled:'🎉 Fulfilled!'}[action]||'Updated','s');
+    closeModal('don-modal'); await fetchDonations();
+  }catch(e){toast(e.message,'e');}
+}
+async function saveNote(){
+  const note=g('dm-note').value;
+  try{ await api(`/api/donations/admin/${activeDonId}`,{method:'PUT',body:JSON.stringify({adminNote:note})}); toast('Note saved','s'); await fetchDonations();}catch(e){toast(e.message,'e');}
+}
+
+// ── ACTIVITY ───────────────────────────────────────────────────────────────
+async function fetchActivity(){
+  try{ activity=await api('/api/admin/activity'); renderAct(); }catch(e){ g('act-tl').innerHTML=`<div class="lds" style="color:var(--rd)">⚠️ ${x(e.message)}</div>`; }
+}
+function renderAct(){
+  const el=g('act-tl');
+  if(!activity.length){el.innerHTML=`<div class="empty"><div class="ico">📋</div><p>No activity yet</p></div>`;return;}
+  el.innerHTML=activity.map(a=>`
+    <div style="display:flex;gap:14px;padding:11px 0;border-left:1px solid var(--bd);padding-left:22px;position:relative;margin-left:8px">
+      <div style="position:absolute;left:-5px;top:18px;width:9px;height:9px;border-radius:50%;background:${a.status==='Approved'?'var(--gn)':'var(--yw)'};border:2px solid var(--bg)"></div>
+      <div><div style="font-size:13px;font-weight:500;color:var(--tx)">${x(a.hospitalName)} <span class="bdg ${a.status==='Approved'?'bg':'by'}" style="margin-left:6px">${a.status}</span></div>
+      <div style="font-size:12px;color:var(--mu)">${x(a.city)} · Admin: ${x(a.adminName)} · ${fd(a.updatedAt)}</div></div>
+    </div>`).join('');
+}
+
+// ── OVERVIEW ───────────────────────────────────────────────────────────────
+function renderOverview(){
+  // pending hospital donation requests
+  const dreqs=allDonations.filter(d=>d.requestType==='hospital_request'&&d.status==='pending');
+  const aeq=g('ov-dreq');
+  aeq.innerHTML=dreqs.length
+    ? dreqs.slice(0,6).map(d=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,.04)">
+        <div class="tpico ${d.donationType==='blood'?'bl':d.donationType==='organ'?'or':'fn'}">${{blood:'🩸',organ:'🫀',financial:'💰'}[d.donationType]}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--tx)">${x(d.hospitalName||'—')}</div><div style="font-size:11.5px;color:var(--mu)">${cap(d.donationType)} · ${x(d.hospitalCity)}</div></div>
+        <span class="urg-c urg-${d.urgency}">${(d.urgency||'normal').toUpperCase()}</span>
+        <button class="btn bgh bsm" onclick="openDon('${d._id}')">Review</button>
+      </div>`).join('')
+    : `<div class="empty" style="padding:28px"><div class="ico">🏥</div><p>No pending hospital requests</p></div>`;
+
+  // pending donor offers
+  const doffs=allDonations.filter(d=>d.requestType==='donor_offer'&&d.status==='pending');
+  const aoff=g('ov-doff');
+  aoff.innerHTML=doffs.length
+    ? doffs.slice(0,6).map(d=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,.04)">
+        <div class="tpico ${d.donationType==='blood'?'bl':d.donationType==='organ'?'or':'fn'}">${{blood:'🩸',organ:'🫀',financial:'💰'}[d.donationType]}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--tx)">${x(d.donorName||'—')}</div><div style="font-size:11.5px;color:var(--mu)">${cap(d.donationType)} · ${x(d.donorPhone||d.donorEmail||'')}</div></div>
+        <button class="btn bap bsm" onclick="quickAct('${d._id}','approved')">✔ Accept</button>
+        <button class="btn brj bsm" onclick="quickAct('${d._id}','rejected')">✗</button>
+      </div>`).join('')
+    : `<div class="empty" style="padding:28px"><div class="ico">🤝</div><p>No pending donor offers</p></div>`;
+}
+
+// ── ORDERS ─────────────────────────────────────────────────────────────────
+let allOrders=[], ordStatusFilter='all', activeOrdId=null;
+
+async function fetchOrders(){
+  try{
+    allOrders=await api('/api/admin/orders');
+    // stats
+    const total=allOrders.length;
+    const placed=allOrders.filter(o=>o.orderStatus==='Placed').length;
+    const shipped=allOrders.filter(o=>o.orderStatus==='Shipped').length;
+    const delivered=allOrders.filter(o=>o.orderStatus==='Delivered').length;
+    g('ord-total').textContent=total;
+    g('ord-placed').textContent=placed;
+    g('ord-shipped').textContent=shipped;
+    g('ord-delivered').textContent=delivered;
+    g('ord-count').textContent=total+' total';
+    // badge for new/placed orders
+    const ordb=g('ordb'); ordb.textContent=placed; ordb.style.display=placed?'':'none';
+    renderOrders();
+  }catch(e){ tblErr('ord-tb',9,e.message); }
+}
+
+function ordFilter(f,btn){
+  ordStatusFilter=f;
+  ['orf-all','orf-placed','orf-proc','orf-ship','orf-del','orf-can'].forEach(id=>g(id).classList.remove('active'));
+  btn.classList.add('active');
+  renderOrders();
+}
+
+function renderOrders(){
+  const q=(v('ord-s')||'').toLowerCase();
+  let list=allOrders;
+  if(ordStatusFilter!=='all') list=list.filter(o=>o.orderStatus===ordStatusFilter);
+  if(q) list=list.filter(o=>{
+    const u=o.user||{};
+    const items=(o.items||[]).map(i=>i.name).join(' ');
+    return (u.name+u.email+(u.phone||'')+items).toLowerCase().includes(q);
+  });
+  const tb=g('ord-tb');
+  if(!list.length){tb.innerHTML=empty('💊','No orders found');return;}
+  const statusBadge=s=>({
+    Placed:      '<span class="bdg by">📦 Placed</span>',
+    Processing:  '<span class="bdg bp">⚙️ Processing</span>',
+    Shipped:     '<span class="bdg bb">🚚 Shipped</span>',
+    Delivered:   '<span class="bdg bg">✅ Delivered</span>',
+    Cancelled:   '<span class="bdg br">❌ Cancelled</span>',
+  }[s]||`<span class="bdg bgr">${x(s)}</span>`);
+  const payBadge=s=>s==='Paid'?'<span class="bdg bg">Paid</span>':'<span class="bdg by">'+x(s)+'</span>';
+  tb.innerHTML=list.map(o=>{
+    const u=o.user||{};
+    const shortId='#'+String(o._id).slice(-6).toUpperCase();
+    const itemsList=(o.items||[]).map(i=>`<div style="font-size:11.5px;color:var(--m2)">${x(i.name)} ×${i.quantity} <span style="color:var(--ac)">₹${i.price}</span></div>`).join('');
+    const addr=o.address?`${x(o.address.city||'')}${o.address.state?', '+x(o.address.state):''}`:'-';
+    return `<tr>
+      <td><span class="tdm">${shortId}</span></td>
+      <td><div class="tdm">${x(u.name||'—')}</div><div style="font-size:11px;color:var(--mu)">${x(u.email||'')}</div><div style="font-size:11px;color:var(--mu)">${x(u.phone||'')}</div></td>
+      <td>${itemsList}</td>
+      <td class="tdm">₹${o.totalAmount}</td>
+      <td>${payBadge(o.paymentStatus||'Pending')}<div style="font-size:11px;color:var(--mu);margin-top:3px">${x(o.paymentMethod||'')}</div></td>
+      <td style="font-size:12px">${addr}</td>
+      <td style="font-size:12px">${fd(o.createdAt)}</td>
+      <td>${statusBadge(o.orderStatus)}</td>
+      <td><button class="btn bgh bsm" onclick="openOrder('${o._id}')">View & Update</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function openOrder(id){
+  const o=allOrders.find(v=>v._id===id); if(!o) return; activeOrdId=id;
+  const u=o.user||{};
+  g('ordm-title').textContent='Order #'+String(o._id).slice(-6).toUpperCase();
+  const statusColor={Placed:'var(--yw)',Processing:'var(--pu)',Shipped:'var(--ac)',Delivered:'var(--gn)',Cancelled:'var(--rd)'};
+  g('ordm-badges').innerHTML=`<span class="bdg" style="background:${statusColor[o.orderStatus]||'var(--mu)'}22;color:${statusColor[o.orderStatus]||'var(--mu)'};border:1px solid ${statusColor[o.orderStatus]||'var(--mu)'}">${o.orderStatus}</span> <span class="bdg ${o.paymentStatus==='Paid'?'bg':'by'}" style="margin-left:6px">${o.paymentStatus||'Pending'}</span>`;
+  
+  // Build detail body
+  const addr=o.address||{};
+  const itemRows=(o.items||[]).map(i=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+      <div><div style="font-size:13.5px;font-weight:500;color:var(--tx)">${x(i.name)}</div><div style="font-size:11.5px;color:var(--mu)">Qty: ${i.quantity}</div></div>
+      <div style="font-weight:600;color:var(--ac)">₹${(i.price*i.quantity).toFixed(2)}</div>
+    </div>`).join('');
+  
+  g('ordm-body').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+      <div style="background:var(--s2);border-radius:10px;padding:14px">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:10px">👤 Patient</div>
+        <div style="font-size:13.5px;font-weight:600;color:var(--tx)">${x(u.name||'—')}</div>
+        <div style="font-size:12px;color:var(--mu);margin-top:3px">${x(u.email||'')}</div>
+        <div style="font-size:12px;color:var(--mu);margin-top:2px">${x(u.phone||'')}</div>
+      </div>
+      <div style="background:var(--s2);border-radius:10px;padding:14px">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:10px">📍 Delivery Address</div>
+        <div style="font-size:13px;color:var(--tx);line-height:1.7">${x(addr.name||'')}<br>${x(addr.address||'')}<br>${x(addr.city||'')}${addr.state?', '+x(addr.state):''} ${x(addr.pincode||'')}<br><span style="color:var(--mu)">${x(addr.phone||'')}</span></div>
+      </div>
+    </div>
+    <div style="background:var(--s2);border-radius:10px;padding:14px;margin-bottom:14px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:10px">💊 Items Ordered</div>
+      ${itemRows}
+      <div style="display:flex;justify-content:space-between;padding-top:10px;font-weight:700;font-size:14px">
+        <span style="color:var(--mu)">Total</span>
+        <span style="color:var(--ac)">₹${o.totalAmount}</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px">
+      <div style="background:var(--s2);border-radius:8px;padding:10px 12px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu)">Payment</div><div style="font-size:13px;font-weight:500;color:var(--tx);margin-top:4px">${x(o.paymentMethod||'—')}</div></div>
+      <div style="background:var(--s2);border-radius:8px;padding:10px 12px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu)">Pay Status</div><div style="font-size:13px;font-weight:500;color:var(--tx);margin-top:4px">${x(o.paymentStatus||'—')}</div></div>
+      <div style="background:var(--s2);border-radius:8px;padding:10px 12px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu)">Ordered On</div><div style="font-size:13px;font-weight:500;color:var(--tx);margin-top:4px">${fd(o.createdAt)}</div></div>
+    </div>`;
+  
+  // preselect current status in dropdown
+  g('ordm-status').value=o.orderStatus||'Placed';
+  g('ord-modal').style.display='flex';
+}
+
+async function updateOrderStatus(){
+  const newStatus=g('ordm-status').value;
+  try{
+    const updated=await api('/api/admin/orders/'+activeOrdId+'/status',{method:'PATCH',body:JSON.stringify({orderStatus:newStatus})});
+    // update local array
+    const idx=allOrders.findIndex(o=>o._id===activeOrdId);
+    if(idx>=0) allOrders[idx]=updated;
+    toast({Placed:'📦 Marked as Placed',Processing:'⚙️ Processing',Shipped:'🚚 Shipped!',Delivered:'✅ Delivered!',Cancelled:'❌ Cancelled'}[newStatus]||'Updated','s');
+    closeModal('ord-modal');
+    renderOrders();
+    // update stats
+    g('ord-placed').textContent=allOrders.filter(o=>o.orderStatus==='Placed').length;
+    g('ord-shipped').textContent=allOrders.filter(o=>o.orderStatus==='Shipped').length;
+    g('ord-delivered').textContent=allOrders.filter(o=>o.orderStatus==='Delivered').length;
+    const placed=allOrders.filter(o=>o.orderStatus==='Placed').length;
+    const ordb=g('ordb'); ordb.textContent=placed; ordb.style.display=placed?'':'none';
+  }catch(e){ toast(e.message,'e'); }
+}
+
+// ── UTILS ──────────────────────────────────────────────────────────────────
+const g=id=>document.getElementById(id);
+const v=id=>{ const el=g(id); return el?el.value:''; };
+function x(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fd(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}catch{return'—';}}
+function cap(s){return s?s[0].toUpperCase()+s.slice(1):'';}
+function empty(ico,msg){return`<tr><td colspan="99"><div class="empty"><div class="ico">${ico}</div><p>${msg}</p></div></td></tr>`;}
+function tblErr(id,cols,msg){const tb=g(id);if(tb)tb.innerHTML=`<tr><td colspan="${cols}"><div class="lds" style="color:var(--rd)">⚠️ ${x(msg)}<br><small style="color:var(--mu)">Ensure backend is running · node server.js</small></div></td></tr>`;}
+function closeModal(id){g(id).style.display='none';}
+function toast(msg,type='i'){const el=document.createElement('div');el.className=`toast ${type}`;el.innerHTML=`<span>${{s:'✅',e:'❌',i:'ℹ️'}[type]||''}</span> ${x(msg)}`;g('tc').appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .4s';setTimeout(()=>el.remove(),400)},3200);}
+</script>
+</body>
+</html>

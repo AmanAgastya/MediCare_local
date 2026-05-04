@@ -1,0 +1,148 @@
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #f0f4f8;
+  --text-color: #333;
+  --background-color: #ffffff;
+  --feature-background: #f9fafb;
+  --error-color: #ff6b6b;
+  --success-color: #4caf50;
+}
+
+.appointment-container {
+  max-width: 800px;
+  margin: 10rem auto;
+  padding: 2rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1), 0 0 60px rgba(74,144,226,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.appointment-title {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.appointment-form {
+  background-color: var(--feature-background);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.form-group-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #e8f0fb;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.appointment-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.appointment-form-group label {
+  display: block;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.appointment-input,
+.appointment-select,
+.appointment-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--background-color);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.appointment-input:focus,
+.appointment-select:focus,
+.appointment-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
+}
+
+.appointment-input:disabled,
+.appointment-select:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  color: #aaa;
+}
+
+.appointment-textarea { resize: vertical; min-height: 80px; }
+
+.appointment-submit-button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.85rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+.appointment-submit-button:hover:not(:disabled) { background-color: #3a7bc8; transform: translateY(-2px); }
+.appointment-submit-button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Success / error banners */
+.appt-success-banner {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.appt-error-banner {
+  background: #fff0f0;
+  color: #c0392b;
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+
+/* Bed availability badge */
+.appt-bed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.appt-bed-ok   { background: #e8f5e9; color: #2e7d32; }
+.appt-bed-full { background: #fff0f0; color: #c0392b; }
+
+@media (max-width: 768px) {
+  .appointment-container { margin: 1rem; padding: 1.5rem; }
+  .appointment-form      { padding: 1.5rem; }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.form-section { animation: fadeIn 0.5s ease-in-out; }

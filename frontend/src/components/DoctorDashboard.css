@@ -1,0 +1,59 @@
+.dd-container { max-width: 800px; margin: 30px auto; padding: 0 16px 40px; }
+
+.dd-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 14px; }
+.dd-spinner { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top-color: #4a90e2; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.dd-header {
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white; padding: 24px; border-radius: 12px; margin-bottom: 18px;
+  padding-top: 120px;
+  box-shadow: 0 6px 20px rgba(74,144,226,0.3);
+}
+.dd-header-left { display: flex; align-items: center; gap: 16px; }
+.dd-avatar { background: rgba(255,255,255,0.2); width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.dd-title { font-size: 1.5rem; margin: 0; }
+.dd-sub { font-size: 0.9rem; opacity: 0.85; margin: 4px 0 0; }
+.dd-logout { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: background 0.2s; }
+.dd-logout:hover { background: rgba(255,255,255,0.3); }
+
+.dd-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.dd-stat { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.dd-stat-num { font-size: 1.8rem; font-weight: 700; color: #1a1a2e; }
+.dd-stat span:last-child { font-size: 0.82rem; color: #6b7280; }
+
+.dd-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+.dd-tab { padding: 9px 20px; background: #f3f4f6; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; color: #555; transition: all 0.2s; }
+.dd-tab.active { background: #4a90e2; color: white; font-weight: 600; }
+
+.dd-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.dd-card h2 { margin: 0 0 18px; font-size: 1.15rem; color: #1a1a2e; }
+
+.dd-profile-rows { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.dd-profile-row { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #374151; }
+.dd-info-box { background: #f0f9ff; border-left: 4px solid #4a90e2; border-radius: 6px; padding: 14px 16px; font-size: 0.9rem; color: #374151; }
+
+.dd-empty { color: #9ca3af; text-align: center; padding: 30px; }
+
+.dd-appt-list, .dd-queue-list { display: flex; flex-direction: column; gap: 10px; }
+.dd-appt-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #f9fafb; border-radius: 10px; }
+.dd-appt-date { display: block; font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
+
+.dd-queue-row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: #f9fafb; border-radius: 10px; }
+.dd-token { background: #4a90e2; color: white; font-weight: 700; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+.dd-phone { display: block; font-size: 0.8rem; color: #6b7280; }
+
+.dd-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+.dd-badge-pending { background: #fef3c7; color: #92400e; }
+.dd-badge-accepted { background: #d1fae5; color: #065f46; }
+.dd-badge-denied { background: #fee2e2; color: #dc2626; }
+.dd-badge-waiting { background: #fef3c7; color: #92400e; }
+.dd-badge-in-progress { background: #dbeafe; color: #1e40af; }
+.dd-badge-done { background: #d1fae5; color: #065f46; }
+.dd-badge-skipped { background: #f3f4f6; color: #6b7280; }
+
+@media (max-width: 600px) {
+  .dd-stats { grid-template-columns: 1fr 1fr; }
+  .dd-header { flex-direction: column; gap: 16px; }
+}

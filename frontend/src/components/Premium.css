@@ -1,0 +1,500 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+  --primary-color: #4a90e2;
+  --background-color: #f4f7fa;
+  --text-color: #333333;
+  --secondary-text-color: #666666;
+  --feature-background: #ffffff;
+  --golden-color: #f7c948;
+  --gradient-color-1: #4a90e2;
+  --gradient-color-2: #007aff;
+}
+
+/* ── Page shell ──────────────────────────────────────────────────────────────*/
+.Premium-page {
+  font-family: 'Lato', sans-serif;
+  margin-top: 35px;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  position: relative;
+  overflow: hidden;
+}
+
+.background-elements {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.background-left,
+.background-right {
+  position: absolute;
+  top: 0; height: 100%; width: 50%; opacity: 0.07;
+}
+.background-left  { left: -25%; }
+.background-right { right: -25%; }
+
+.Premium-page main {
+  position: relative;
+  z-index: 1;
+}
+
+.Premium-page section {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.Premium-page h1,
+.Premium-page h2,
+.Premium-page h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.Premium-page h1 { font-size: 3rem;  color: #ffffff; margin-bottom: 1rem; }
+.Premium-page h2 { font-size: 2.4rem; color: var(--primary-color); text-align: center; margin-bottom: 0.5rem; }
+
+/* Shared sub-heading under every h2 */
+.section-sub {
+  text-align: center;
+  color: var(--secondary-text-color);
+  font-size: 1.05rem;
+  margin-top: 0;
+  margin-bottom: 2.8rem;
+}
+.section-sub-light { color: rgba(255, 255, 255, 0.82); }
+
+/* ── Hero ────────────────────────────────────────────────────────────────────*/
+#Premium-hero {
+  background: linear-gradient(135deg, var(--gradient-color-1), var(--gradient-color-2));
+  color: #ffffff;
+  text-align: center;
+  padding: 5rem 2rem 4.5rem;
+  max-width: 100%;
+  margin: 0;
+  position: relative;
+}
+
+#Premium-hero p {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.15rem;
+  max-width: 640px;
+  margin: 0 auto 1.6rem;
+}
+
+.premium-hero-badges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.premium-hero-badges span {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.Premium-cta-button {
+  display: inline-block;
+  background-color: var(--golden-color);
+  color: #1a1a1a;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+}
+.Premium-cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* ── Features grid ───────────────────────────────────────────────────────────*/
+.Premium-features-grid,
+.Premium-reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.Premium-feature-card,
+.Premium-reason {
+  background-color: var(--feature-background);
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
+}
+.Premium-feature-card:hover,
+.Premium-reason:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
+}
+
+.feature-icon,
+.reason-icon {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.Premium-feature-card h3,
+.Premium-reason h3 {
+  font-size: 1.05rem;
+  color: var(--text-color);
+  margin-bottom: 0.6rem;
+}
+
+.Premium-feature-card p,
+.Premium-reason p {
+  color: var(--secondary-text-color);
+  font-size: 0.93rem;
+  margin: 0;
+}
+
+/* ── Why Premium (gradient bg) ───────────────────────────────────────────────*/
+#Premium-why-premium {
+  background: linear-gradient(135deg, var(--gradient-color-1), var(--gradient-color-2));
+  max-width: 100%;
+  margin: 0;
+  padding: 5rem 2rem;
+}
+#Premium-why-premium > h2 { color: #ffffff; }
+
+#Premium-why-premium .Premium-reasons-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#Premium-why-premium .Premium-reason {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+#Premium-why-premium .Premium-reason h3 { color: #fff; }
+#Premium-why-premium .Premium-reason p  { color: rgba(255, 255, 255, 0.82); }
+#Premium-why-premium .reason-icon       { color: var(--golden-color); }
+
+/* ── Pricing ─────────────────────────────────────────────────────────────────*/
+.premium-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.premium-plan-card {
+  background: var(--feature-background);
+  border-radius: 16px;
+  padding: 2rem 1.8rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+  text-align: center;
+}
+.premium-plan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+}
+.premium-plan-card.popular {
+  border: 2px solid var(--primary-color);
+  transform: scale(1.04);
+}
+.premium-plan-card.popular:hover {
+  transform: scale(1.04) translateY(-4px);
+}
+
+.plan-popular-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.premium-plan-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 1.4rem;
+}
+.plan-amount {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+.plan-period {
+  font-size: 0.95rem;
+  color: var(--secondary-text-color);
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.8rem;
+  text-align: left;
+}
+.plan-features li {
+  padding: 7px 0;
+  font-size: 0.92rem;
+  color: var(--text-color);
+  border-bottom: 1px solid #f0f2f8;
+  display: flex;
+  gap: 8px;
+}
+.plan-features li:last-child { border-bottom: none; }
+
+.plan-cta {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.plan-cta:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+/* ── Testimonials ────────────────────────────────────────────────────────────*/
+#Premium-testimonials {
+  background: #f0f5ff;
+  max-width: 100%;
+  margin: 0;
+  padding: 5rem 2rem;
+}
+#Premium-testimonials > h2,
+#Premium-testimonials > .section-sub {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.premium-testimonial-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 860px;
+  margin: 0 auto 1.4rem;
+}
+
+/* Carousel track */
+.Premium-testimonial-carousel {
+  position: relative;
+  flex: 1;
+  /* height is driven by the tallest active card; min-height prevents collapse */
+  min-height: 240px;
+}
+
+.Premium-testimonial {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  background: var(--feature-background);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.Premium-testimonial.active {
+  opacity: 1;
+  pointer-events: auto;
+  /* Bring above the hidden cards so it's clickable */
+  position: relative;
+}
+
+/* Stars */
+.testimonial-stars {
+  color: #f7c948;
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+}
+
+/* Quote text */
+.testimonial-quote {
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.7;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Author row */
+.testimonial-author-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: auto;
+}
+
+.testimonial-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gradient-color-1), var(--gradient-color-2));
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.testimonial-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.testimonial-author {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.testimonial-role {
+  font-size: 0.82rem;
+  color: var(--secondary-text-color);
+}
+
+/* Nav arrows */
+.testimonial-nav {
+  background: var(--feature-background);
+  border: 1px solid #dde3f0;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary-color);
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.testimonial-nav:hover {
+  background: var(--primary-color);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* Dots */
+.Premium-testimonial-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.4rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c8d5e8;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+.dot.active {
+  background: var(--primary-color);
+  transform: scale(1.3);
+}
+.dot:hover:not(.active) { background: #a0b4cc; }
+
+/* ── CTA Banner ──────────────────────────────────────────────────────────────*/
+#Premium-cta-banner {
+  background: linear-gradient(135deg, var(--gradient-color-1), var(--gradient-color-2));
+  max-width: 100%;
+  margin: 0;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+#Premium-cta-banner h2 { color: #ffffff; margin-bottom: 0.8rem; }
+#Premium-cta-banner p  { color: rgba(255,255,255,0.88); font-size: 1.05rem; margin-bottom: 2rem; }
+
+.premium-cta-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.premium-outline-btn {
+  display: inline-block;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.7);
+  color: #ffffff;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.premium-outline-btn:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  .Premium-page h1 { font-size: 2.1rem; }
+  .Premium-page h2 { font-size: 1.8rem; }
+
+  .Premium-page section { padding: 3.5rem 1.2rem; }
+
+  #Premium-hero,
+  #Premium-why-premium,
+  #Premium-testimonials,
+  #Premium-cta-banner { padding: 3.5rem 1.2rem; }
+
+  .premium-testimonial-wrapper { gap: 6px; }
+  .testimonial-nav { width: 34px; height: 34px; }
+
+  .premium-plan-card.popular { transform: none; }
+  .premium-plan-card.popular:hover { transform: translateY(-4px); }
+}

@@ -1,0 +1,107 @@
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 4px;
+}
+
+.admin-tab-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  background: #f3f4f6;
+  color: #555;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-tab-btn.active {
+  background: #4a90e2;
+  color: white;
+}
+
+.admin-stat-feedback {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: white;
+}
+
+/* Feedback */
+.admin-feedback-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.admin-feedback-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s;
+}
+
+.admin-feedback-card.fb-unread {
+  border-left: 4px solid #f59e0b;
+}
+
+.fb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.fb-email { display: block; font-size: 0.8rem; color: #888; }
+.fb-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.fb-stars { color: #f59e0b; font-size: 1rem; letter-spacing: 2px; }
+
+.fb-status {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.fb-status-unread { background: #fef3c7; color: #92400e; }
+.fb-status-read { background: #dbeafe; color: #1e40af; }
+.fb-status-replied { background: #d1fae5; color: #065f46; }
+
+.fb-category { font-size: 0.8rem; color: #6b7280; text-transform: capitalize; }
+.fb-message { font-size: 0.9rem; color: #374151; line-height: 1.5; }
+.fb-date { font-size: 0.75rem; color: #9ca3af; }
+.fb-reply-preview { background: #f0f9ff; border-left: 3px solid #4a90e2; padding: 8px 12px; border-radius: 4px; font-size: 0.85rem; }
+.fb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.fb-reply-box { display: flex; flex-direction: column; gap: 8px; }
+.fb-reply-input { width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem; resize: vertical; }
+.admin-btn-outline { background: transparent; border: 1px solid #4a90e2; color: #4a90e2; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+
+/* Activity Log */
+.admin-activity-list { display: flex; flex-direction: column; gap: 12px; }
+.admin-activity-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.activity-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.dot-green { background: #10b981; }
+.dot-orange { background: #f59e0b; }
+.activity-info { flex: 1; }
+.activity-sub { display: block; font-size: 0.8rem; color: #6b7280; }
+.activity-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.activity-time { font-size: 0.75rem; color: #9ca3af; }
