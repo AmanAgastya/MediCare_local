@@ -12,7 +12,7 @@
 
 ## Acknowledgments
  - **Contributors**:
-   -Aman Agastya
+   -Aman Agastya - amanagastya0709@gmail.com
 ---
 
 ## 📋 Table of Contents

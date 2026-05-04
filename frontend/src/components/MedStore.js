@@ -43,7 +43,7 @@ const MedStore = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth(); // FIX: use context instead of raw localStorage
   const {
     cart,
     cartCount,
