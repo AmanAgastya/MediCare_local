@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { UserCircle, Mail, Lock } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-//import API from "../services/api";
 import './UserLogin.css';
 
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const UserLogin = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError]       = useState('');
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -25,19 +26,22 @@ const UserLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${API_BASE}/api/auth/login`, { // ✅ FIXED
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        setError(response.status === 502 || response.status === 503
+          ? 'Server is starting up. Please wait 30 seconds and try again.'
+          : 'Server error. Please try again.');
+        return;
+      }
 
       const data = await response.json();
 
@@ -45,9 +49,8 @@ const UserLogin = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userName', data.name);
         localStorage.setItem('role', data.role);
-        localStorage.setItem('userEmail', data.email); // Store email in localStorage
+        localStorage.setItem('userEmail', data.email);
         window.dispatchEvent(new Event('storage'));
-
         if (data.role === 'admin' || data.role === 'super_admin') {
           navigate('/admin-dashboard');
         } else {
@@ -56,9 +59,9 @@ const UserLogin = () => {
       } else {
         setError(data.message || 'Invalid email or password');
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setError('An error occurred. Please try again.');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Cannot reach the server. Please check your connection and try again.');
     }
   };
 
@@ -71,24 +74,13 @@ const UserLogin = () => {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <Mail size={20} color="#4a90e2" />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" placeholder="Email" value={email}
+              onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div className="input-group">
             <Lock size={20} color="#4a90e2" />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength="8"
-            />
+            <input type="password" placeholder="Password" value={password}
+              onChange={(e) => setPassword(e.target.value)} required minLength="8" />
           </div>
           <button type="submit" className="login-button-a">Login</button>
         </form>
